@@ -41,6 +41,30 @@ def load_user(user_id):
 current_dataframe = None
 dataset_metadata = {}
 
+# Default laptop products (hardcoded for Vercel deployment)
+DEFAULT_LAPTOP_PRODUCTS = [
+    {"marketplace": "Tokopedia", "product_name": "Laptop HP OmniBook X Flip Intel Core Ultra 5 16GB RAM 512GB SSD Touchscreen", "brand": "HP", "price": 20090500, "rating": 4.7, "review_count": 0, "sold_count": 50, "seller_name": "HP Indonesia", "seller_location": "Jakarta Utara", "product_url": "https://www.tokopedia.com/hp/laptop-hp-envy-x360-intel-core-ultra-5-16gb-ram-512gb-ssd-w11-home"},
+    {"marketplace": "Tokopedia", "product_name": "LENOVO IdeaPad Slim 3 14IRH8 i7-13620H 16GB 512SSD 14 FHD W11+OHS", "brand": "Lenovo", "price": 18999000, "rating": 5.0, "review_count": 0, "sold_count": 100, "seller_name": "Lenovo Yoga Official", "seller_location": "Jakarta Utara", "product_url": "https://www.tokopedia.com/lenovoyogaofficial/lenovo-ideapad-slim-3-14irh8"},
+    {"marketplace": "Tokopedia", "product_name": "Acer Swift Go 14 AI 100% sRGB Ultra 5-125H 16GB 512GB SSD", "brand": "Acer", "price": 16579999, "rating": 5.0, "review_count": 0, "sold_count": 40, "seller_name": "Acer Official Store", "seller_location": "Jakarta Pusat", "product_url": "https://www.tokopedia.com/acerid/acer-swift-go-14-ai"},
+    {"marketplace": "Tokopedia", "product_name": "Mac Book Air M2 & M3 13-15 inch RAM 8GB/16GB/24GB SSD 256GB/512GB", "brand": "Apple", "price": 14575000, "rating": 4.9, "review_count": 0, "sold_count": 40, "seller_name": "Hobi Mac", "seller_location": "Kab. Sleman", "product_url": "https://www.tokopedia.com/hobimac/macbook-air-m2-ram-8-16-gb-ssd-256-512-gb"},
+    {"marketplace": "Tokopedia", "product_name": "HP Laptop AI Ultra 5 225U 512GB SSD 8GB FHD Win11+OHS", "brand": "HP", "price": 13999000, "rating": 4.9, "review_count": 0, "sold_count": 100, "seller_name": "Sinarmulia Sukses Makmur", "seller_location": "Jakarta Barat", "product_url": "https://www.tokopedia.com/sinarmulia/laptop-hp-pavilion-aero-13"},
+    {"marketplace": "Tokopedia", "product_name": "ACER Swift Lite 14 AI AMD Ryzen 7 260 16/512GB SSD Windows 11", "brand": "Acer", "price": 13489000, "rating": 5.0, "review_count": 0, "sold_count": 20, "seller_name": "Acer Authorized Store", "seller_location": "Jakarta Utara", "product_url": "https://www.tokopedia.com/acer-jakarta/acer-swift-lite-14-ai"},
+    {"marketplace": "Tokopedia", "product_name": "ASUS Vivobook Go E1404FA-Ryzen 5 7520U 16GB-512GB-14inch-WIN11+OHS", "brand": "ASUS", "price": 11799000, "rating": 4.9, "review_count": 0, "sold_count": 100, "seller_name": "ASUS ROG Indonesia", "seller_location": "Jakarta Utara", "product_url": "https://www.tokopedia.com/asusrogindonesia/asus-vivobook-go-e1404fa"},
+    {"marketplace": "Tokopedia", "product_name": "ASUS VivoBook S16 FLIP OLED TOUCH i5-1335U 8GB/16GB 512GB W11", "brand": "ASUS", "price": 11780010, "rating": 4.9, "review_count": 0, "sold_count": 70, "seller_name": "Deca Computer", "seller_location": "Jakarta Utara", "product_url": "https://www.tokopedia.com/decacom/asus-vivobook-s16-flip-oled-touch"},
+    {"marketplace": "Blibli", "product_name": "HP 14-ep1155TU Laptop Silver Core 5-120U 16GB 512GB Win11+OHS24+M365", "brand": "HP", "price": 11499000, "rating": 5.0, "review_count": 14, "sold_count": 760, "seller_name": "Blibli Flagship Store", "seller_location": "Kota Bekasi", "product_url": "https://www.blibli.com/p/hp-14-ep1155tu-laptop-silver"},
+    {"marketplace": "Blibli", "product_name": "Lenovo IdeaPad Slim 3 14IRH10 Notebook Arctic Grey Intel Core i5-13420H 8GB 512GB SSD", "brand": "Lenovo", "price": 10999000, "rating": 4.6, "review_count": 19, "sold_count": 1180, "seller_name": "Blibli Flagship Store", "seller_location": "Kota Bekasi", "product_url": "https://www.blibli.com/p/lenovo-ideapad-slim-3-14irh10"},
+    {"marketplace": "Tokopedia", "product_name": "LENOVO IDEAPAD SLIM 3 14 I5 13420H 16GB 512GB W11+OHS 14.0 WUXGA IPS", "brand": "Lenovo", "price": 10999000, "rating": 5.0, "review_count": 0, "sold_count": 1, "seller_name": "AGRES ID", "seller_location": "Jakarta Utara", "product_url": "https://www.tokopedia.com/agresid/hp-samsung-galaxy-a56-5g"},
+    {"marketplace": "Tokopedia", "product_name": "ASUS Vivobook Go 14 E1404FA-Ryzen 5 7520U 8GB-512GB-14inch-WIN11+OHS", "brand": "ASUS", "price": 10599000, "rating": 5.0, "review_count": 0, "sold_count": 21, "seller_name": "ASUS ROG Indonesia", "seller_location": "Jakarta Utara", "product_url": "https://www.tokopedia.com/asusrogindonesia/asus-vivobook-go-14-e1404fa"},
+    {"marketplace": "Blibli", "product_name": "HP 14-ep0261TU Laptop Silver i3-1315U 8GB 512GB Win11+OHS24+M365", "brand": "HP", "price": 8999000, "rating": 4.8, "review_count": 29, "sold_count": 3300, "seller_name": "Blibli Flagship Store", "seller_location": "Kota Semarang", "product_url": "https://www.blibli.com/p/hp-14-ep0261tu-laptop-silver"},
+    {"marketplace": "Blibli", "product_name": "Axioo Mybook Hype 5 G12 Notebook Black i5-1235U 16GB 512GB SSD", "brand": "Axioo", "price": 8999000, "rating": 5.0, "review_count": 25, "sold_count": 1220, "seller_name": "Blibli Laptop Store", "seller_location": "Kota Jakarta Timur", "product_url": "https://www.blibli.com/p/axioo-mybook-hype-5-g12-notebook-black"},
+    {"marketplace": "Tokopedia", "product_name": "ACER Aspire Go AG14-72P-38GD Laptop Silver i3-1315U 8GB 512GB Win11 OHS24", "brand": "ACER", "price": 8699000, "rating": 5.0, "review_count": 9, "sold_count": 690, "seller_name": "Blibli Flagship Store", "seller_location": "Kab. Sleman", "product_url": "https://www.tokopedia.com/acer/aspire-go-ag14-72p-38gd"},
+    {"marketplace": "Tokopedia", "product_name": "ASUS Vivobook Go 14 E1404FA AMD Ryzen 3 7320U 8GB 512GB 14inch WIN11", "brand": "ASUS", "price": 8599000, "rating": 5.0, "review_count": 0, "sold_count": 250, "seller_name": "AGRES ID BOGOR", "seller_location": "Bogor", "product_url": "https://www.tokopedia.com/agresidbogor/laptop-asus-vivobook-go-14-e1404fa"},
+    {"marketplace": "Tokopedia", "product_name": "ADVAN Workplus Heritage Ryzen 5 7535HS 16GB/1TB 14 IPS FHD Windows 11", "brand": "Advan", "price": 8599000, "rating": 4.9, "review_count": 0, "sold_count": 500, "seller_name": "ADVAN INDONESIA", "seller_location": "Kab. Tangerang", "product_url": "https://www.tokopedia.com/advanstore/advan-workplus-heritage"},
+    {"marketplace": "Blibli", "product_name": "Axioo Mybook Hype 1 Notebook Grey N4020 4GB 128GB SSD 14.1 HD Win11", "brand": "Axioo", "price": 3899000, "rating": 4.9, "review_count": 264, "sold_count": 15640, "seller_name": "Blibli Laptop Store", "seller_location": "Kota Bandung", "product_url": "https://www.blibli.com/p/axioo-mybook-hype-1-notebook-grey"},
+    {"marketplace": "Lazada", "product_name": "Lenovo ThinkPad T460 T460S L460 E460 Core I5 I7 Generation 6 Laptop", "brand": "Lenovo", "price": 2300000, "rating": 4.8, "review_count": 213, "sold_count": 385, "seller_name": "Unlimited Laptop", "seller_location": "Kota Jakarta Utara", "product_url": "https://www.lazada.co.id/products/pdp-i7925850831.html"},
+    {"marketplace": "Lazada", "product_name": "Lenovo Laptop Core I7 I5 I3 Ram 8 GB Ssd 256 GB Infinity Technology", "brand": "Lenovo", "price": 1525000, "rating": 4.8, "review_count": 674, "sold_count": 1300, "seller_name": "Infinity Technology", "seller_location": "Kota Jakarta Pusat", "product_url": "https://www.lazada.co.id/products/pdp-i5560826335.html"},
+]
+
 def parse_price(price_str):
     """Convert price string to numeric value."""
     if pd.isna(price_str):
@@ -585,21 +609,41 @@ def admin_export_csv():
 def init_default_data():
     """Load default dataset if available."""
     global current_dataframe, dataset_metadata
+    
+    # First try to load from CSV file
     sample_path = os.path.join('data', 'data_laptop.csv')
     if os.path.exists(sample_path):
         try:
             process_csv(sample_path, 'data_laptop.csv')
-            print(f"✅ Dataset loaded: {dataset_metadata.get('total_products', 0)} products from {dataset_metadata.get('unique_marketplaces', 0)} marketplaces")
+            print(f"✅ Dataset loaded from CSV: {dataset_metadata.get('total_products', 0)} products")
+            return
         except Exception as e:
-            print(f"❌ Error loading dataset: {str(e)}")
-            # Fallback to old sample if exists
-            old_sample = os.path.join('data', 'sample_laptops.csv')
-            if os.path.exists(old_sample):
-                try:
-                    process_csv(old_sample, 'sample_laptops.csv')
-                    print(f"✅ Fallback sample loaded: {dataset_metadata.get('total_products', 0)} products")
-                except:
-                    pass
+            print(f"⚠️ Error loading CSV: {str(e)}, using hardcoded defaults")
+    
+    # Fallback to hardcoded default products
+    try:
+        df = pd.DataFrame(DEFAULT_LAPTOP_PRODUCTS)
+        current_dataframe = df
+        
+        # Calculate statistics
+        dataset_metadata = {
+            'filename': 'default_laptops.json',
+            'total_products': len(df),
+            'unique_marketplaces': df['marketplace'].nunique(),
+            'unique_brands': df['brand'].nunique(),
+            'marketplaces': df['marketplace'].unique().tolist(),
+            'brands': sorted(df['brand'].unique().tolist()),
+            'upload_timestamp': datetime.now().isoformat(),
+            'price_min': float(df['price'].min()),
+            'price_max': float(df['price'].max()),
+            'price_avg': float(df['price'].mean()),
+            'rating_min': float(df['rating'].min()),
+            'rating_max': float(df['rating'].max()),
+            'rating_avg': float(df['rating'].mean()),
+        }
+        print(f"✅ Default dataset loaded: {len(df)} products from {df['marketplace'].nunique()} marketplaces")
+    except Exception as e:
+        print(f"❌ Error loading default data: {str(e)}")
 
 # Initialize data on import (works in both local and Vercel)
 init_default_data()
