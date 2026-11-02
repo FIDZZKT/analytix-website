@@ -581,8 +581,10 @@ def admin_export_csv():
         flash(f'Error exporting CSV: {str(e)}', 'error')
         return redirect(url_for('admin_dashboard'))
 
-if __name__ == '__main__':
-    # Auto-load sample dataset if it exists
+# Auto-load sample dataset on app initialization
+def init_default_data():
+    """Load default dataset if available."""
+    global current_dataframe, dataset_metadata
     sample_path = os.path.join('data', 'data_laptop.csv')
     if os.path.exists(sample_path):
         try:
@@ -593,7 +595,14 @@ if __name__ == '__main__':
             # Fallback to old sample if exists
             old_sample = os.path.join('data', 'sample_laptops.csv')
             if os.path.exists(old_sample):
-                process_csv(old_sample, 'sample_laptops.csv')
-                print(f"✅ Fallback sample loaded: {dataset_metadata.get('total_products', 0)} products")
-    
+                try:
+                    process_csv(old_sample, 'sample_laptops.csv')
+                    print(f"✅ Fallback sample loaded: {dataset_metadata.get('total_products', 0)} products")
+                except:
+                    pass
+
+# Initialize data on import (works in both local and Vercel)
+init_default_data()
+
+if __name__ == '__main__':
     app.run(debug=True, port=5000)
