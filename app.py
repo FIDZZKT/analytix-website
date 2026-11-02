@@ -579,28 +579,58 @@ def admin_upload_csv():
 @app.route('/admin/export', methods=['GET'])
 @login_required
 def admin_export_csv():
-    """Export current dataset as CSV."""
-    global current_dataframe
+    """Export full dataset as CSV (all 500+ products from original file)."""
     
-    if current_dataframe is None:
-        flash('No dataset to export', 'error')
-        return redirect(url_for('admin_dashboard'))
+    # Try to export from uploaded CSV files first
+    data_dir = os.path.join(os.path.dirname(__file__), 'data')
+    csv_files = [f for f in os.listdir(data_dir) if f.endswith('.csv') and f != 'data_laptop.csv']
+    
+    # Sort by modification time, get the latest
+    if csv_files:
+        csv_files.sort(key=lambda x: os.path.getmtime(os.path.join(data_dir, x)), reverse=True)
+        latest_csv = os.path.join(data_dir, csv_files[0])
+    else:
+        # Fallback to full_dataset_laptop.csv if exists
+        latest_csv = os.path.join(data_dir, 'full_dataset_laptop.csv')
     
     try:
-        # Create CSV in memory
-        output = BytesIO()
-        current_dataframe.to_csv(output, index=False, encoding='utf-8')
-        output.seek(0)
-        
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        filename = f'analytix_export_{timestamp}.csv'
-        
-        return send_file(
-            output,
-            mimetype='text/csv',
-            as_attachment=True,
-            download_name=filename
-        )
+        if os.path.exists(latest_csv):
+            # Read and export the full CSV file
+            df_full = pd.read_csv(latest_csv, encoding='utf-8', on_bad_lines='skip', sep=';')
+            
+            output = BytesIO()
+            df_full.to_csv(output, index=False, encoding='utf-8', sep=';')
+            output.seek(0)
+            
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            filename = f'analytix_full_export_{timestamp}.csv'
+            
+            return send_file(
+                output,
+                mimetype='text/csv',
+                as_attachment=True,
+                download_name=filename
+            )
+        else:
+            # Fallback to current dataframe (20 products)
+            global current_dataframe
+            if current_dataframe is None:
+                flash('No dataset to export', 'error')
+                return redirect(url_for('admin_dashboard'))
+            
+            output = BytesIO()
+            current_dataframe.to_csv(output, index=False, encoding='utf-8')
+            output.seek(0)
+            
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            filename = f'analytix_export_{timestamp}.csv'
+            
+            return send_file(
+                output,
+                mimetype='text/csv',
+                as_attachment=True,
+                download_name=filename
+            )
     except Exception as e:
         flash(f'Error exporting CSV: {str(e)}', 'error')
         return redirect(url_for('admin_dashboard'))
