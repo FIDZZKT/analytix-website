@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANALYTIX - Big Data Laptop Explorer</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-left">
+                    <div class="logo">ANALYTIX</div>
+                    <div class="nav-links">
+                        <a href="#dashboard">Dashboard</a>
+                        <a href="#products">Products</a>
+                        <a href="#analytics">Analytics</a>
+                        <a href="#dataset">Dataset</a>
+                    </div>
+                </div>
+                <div class="navbar-right">
+                    <input type="text" class="search-input" id="navbar-search" placeholder="Search laptops...">
+                    <div class="dataset-indicator" id="dataset-indicator" style="display: none;">
+                        <span class="status-dot"></span>
+                        <span class="status-text">DATASET LOADED</span>
+                    </div>
+                </div>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="dashboard">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-left">
+                    <p class="hero-label">BIG DATA LAPTOP EXPLORER</p>
+                    <h1 class="hero-title">
+                        Discover laptops.<br>
+                        Compare smarter.
+                    </h1>
+                    <p class="hero-description">
+                        Explore laptop products from multiple e-commerce platforms. 
+                        Compare prices, ratings, and brands through collected marketplace data.
+                    </p>
+                    <p class="hero-product-count" id="hero-product-count"></p>
+                </div>
+                <div class="hero-right">
+                    <div class="hero-visual">
+                        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="50" y="80" width="300" height="180" rx="8" fill="none" stroke="#84cc16" stroke-width="2"/>
+                            <rect x="50" y="80" width="300" height="20" fill="#84cc16" opacity="0.2"/>
+                            <rect x="80" y="130" width="80" height="60" rx="4" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                            <rect x="180" y="130" width="80" height="60" rx="4" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                            <rect x="280" y="130" width="50" height="60" rx="4" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                            <circle cx="200" cy="240" r="8" fill="#84cc16"/>
+                            <line x1="100" y1="220" x2="300" y2="220" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section (shown when no dataset loaded) -->
+    <section class="upload-section" id="upload-section">
+        <div class="container">
+            <div class="upload-content">
+                <h2>Upload Dataset</h2>
+                <p>Upload a CSV file containing laptop data to begin exploring.</p>
+                <div class="upload-controls">
+                    <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
+                    <button class="btn btn-primary" id="choose-file-btn">Choose CSV File</button>
+                    <span class="file-name" id="file-name"></span>
+                    <button class="btn btn-primary" id="upload-btn" style="display: none;">Upload & Process</button>
+                </div>
+                <div class="upload-status" id="upload-status"></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="separator"></div>
+
+    <!-- Product Explorer Section -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Laptops to explore</h2>
+                <p class="product-count" id="product-count-display"></p>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="filter-controls">
+                <input type="text" class="filter-input" id="search-input" placeholder="Search by name...">
+                
+                <select class="filter-select" id="marketplace-filter">
+                    <option value="">All Marketplaces</option>
+                </select>
+                
+                <select class="filter-select" id="brand-filter">
+                    <option value="">All Brands</option>
+                </select>
+                
+                <input type="number" class="filter-input filter-input-small" id="price-min" placeholder="Min Price">
+                <input type="number" class="filter-input filter-input-small" id="price-max" placeholder="Max Price">
+                
+                <select class="filter-select" id="sort-select">
+                    <option value="">Sort by...</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                    <option value="rating_desc">Rating: Highest</option>
+                </select>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="product-grid" id="product-grid">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <div class="separator"></div>
+
+    <!-- Analytics Section -->
+    <section class="analytics-section" id="analytics">
+        <div class="container">
+            <h2 class="section-title">Data Analytics</h2>
+            
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <canvas id="chart-marketplace"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chart-brand"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chart-price-distribution"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chart-avg-price"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chart-avg-rating"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="separator"></div>
+
+    <!-- Dataset Section -->
+    <section class="dataset-section" id="dataset">
+        <div class="container">
+            <h2 class="section-title">Dataset Information</h2>
+            
+            <div class="dataset-info" id="dataset-info">
+                <div class="info-item">
+                    <div class="info-label">Filename</div>
+                    <div class="info-value"><code id="info-filename">-</code></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Total Products</div>
+                    <div class="info-value" id="info-total">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Marketplaces</div>
+                    <div class="info-value" id="info-marketplaces">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Brands</div>
+                    <div class="info-value" id="info-brands">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Price Range</div>
+                    <div class="info-value" id="info-price-range">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Last Updated</div>
+                    <div class="info-value" id="info-timestamp">-</div>
+                </div>
+            </div>
+
+            <div class="download-controls">
+                <button class="btn btn-primary" id="download-full-btn">Download Full Dataset</button>
+                <button class="btn btn-outline" id="download-filtered-btn">Download Filtered Dataset</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 ANALYTIX - Big Data Laptop Explorer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/charts.js"></script>
+</body>
+</html>

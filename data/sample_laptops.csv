@@ -1,0 +1,32 @@
+# SAMPLE DATA FOR DEMO PURPOSES - Replace with real scraped data
+marketplace,product_name,brand,price,rating,review_count,sold_count,seller_name,seller_location,product_url
+Tokopedia,ASUS VivoBook 14 A416JAO Intel Core i3-1005G1 4GB 256GB SSD Win10,ASUS,Rp5.499.000,4.7,234,1200,Asus Official Store,Jakarta Pusat,https://tokopedia.com/asus/vivobook-14
+Shopee,Lenovo IdeaPad Slim 3 AMD Ryzen 5 5500U 8GB 512GB SSD Win11,Lenovo,Rp7.299.000,4.8,567,2340,Lenovo Official,Jakarta Selatan,https://shopee.co.id/lenovo/ideapad-slim
+Blibli,HP 14s-dq2513TU Intel Core i3-1115G4 4GB 256GB SSD Win11,HP,Rp5.899.000,4.6,189,890,HP Indonesia,Tangerang,https://blibli.com/hp/14s-dq2513
+Lazada,Acer Aspire 5 A514-54 Intel Core i5-1135G7 8GB 512GB SSD Win11,Acer,Rp8.999.000,4.9,412,1560,Acer Official,Jakarta Barat,https://lazada.co.id/acer/aspire5
+Tokopedia,ASUS TUF Gaming F15 FX506LH Intel Core i5-10300H 8GB 512GB GTX1650,ASUS,Rp11.499.000,4.8,678,3400,Asus Gaming Store,Jakarta Utara,https://tokopedia.com/asus/tuf-gaming
+Shopee,Dell Inspiron 14 3420 Intel Core i3-1215U 8GB 256GB SSD Win11,Dell,Rp6.799.000,4.5,234,1100,Dell Official,Bandung,https://shopee.co.id/dell/inspiron-14
+Blibli,Lenovo ThinkPad E14 Gen 3 AMD Ryzen 5 5500U 8GB 512GB Win11,Lenovo,Rp9.499.000,4.9,345,1890,Lenovo Pro Store,Jakarta Pusat,https://blibli.com/lenovo/thinkpad-e14
+Lazada,ASUS ZenBook 14 UM425UA AMD Ryzen 5 5500U 8GB 512GB Win11,ASUS,Rp10.299.000,4.9,456,2100,Asus Premium,Surabaya,https://lazada.co.id/asus/zenbook-14
+Tokopedia,HP Pavilion 14-dv2xxx Intel Core i5-1235U 8GB 512GB SSD Win11,HP,Rp9.799.000,4.7,321,1670,HP Official Store,Jakarta Selatan,https://tokopedia.com/hp/pavilion-14
+Shopee,Acer Swift 3 SF314-512 Intel Core i5-1240P 8GB 512GB SSD Win11,Acer,Rp10.999.000,4.8,389,1780,Acer Swift Store,Semarang,https://shopee.co.id/acer/swift3
+Blibli,MSI Modern 14 C12M Intel Core i3-1215U 8GB 512GB SSD Win11,MSI,Rp7.499.000,4.6,178,920,MSI Official,Jakarta Barat,https://blibli.com/msi/modern-14
+Lazada,Lenovo LOQ 15IRH8 Intel Core i5-12450H 8GB 512GB RTX2050 Win11,Lenovo,Rp13.999.000,4.9,523,2890,Lenovo Gaming,Jakarta Utara,https://lazada.co.id/lenovo/loq-15
+Tokopedia,Dell Vostro 14 3420 Intel Core i5-1235U 8GB 512GB SSD Win11,Dell,Rp8.999.000,4.7,267,1430,Dell Business,Yogyakarta,https://tokopedia.com/dell/vostro-14
+Shopee,ASUS VivoBook S14 S433EA Intel Core i5-1135G7 8GB 512GB Win11,ASUS,Rp9.299.000,4.8,401,1950,Asus VivoBook Store,Medan,https://shopee.co.id/asus/vivobook-s14
+Blibli,HP Envy 13-ba1xxx Intel Core i5-1135G7 8GB 512GB SSD Win11,HP,Rp12.499.000,4.9,289,1320,HP Premium Store,Jakarta Pusat,https://blibli.com/hp/envy-13
+Lazada,Acer Nitro 5 AN515-57 Intel Core i5-11400H 8GB 512GB RTX3050,Acer,Rp12.999.000,4.8,612,3210,Acer Nitro Store,Surabaya,https://lazada.co.id/acer/nitro5
+Tokopedia,Lenovo IdeaPad Gaming 3 15IAH7 Intel i5-12500H 8GB 512GB RTX3050,Lenovo,Rp13.499.000,4.9,534,2780,Lenovo Gaming Official,Malang,https://tokopedia.com/lenovo/ideapad-gaming3
+Shopee,ASUS ROG Strix G15 G513IC AMD Ryzen 7 4800H 8GB 512GB RTX3050,ASUS,Rp14.999.000,4.9,789,4120,ROG Official Store,Jakarta Selatan,https://shopee.co.id/asus/rog-strix-g15
+Blibli,Dell Latitude 3420 Intel Core i5-1135G7 8GB 256GB SSD Win11,Dell,Rp9.799.000,4.7,198,1050,Dell Enterprise,Jakarta Barat,https://blibli.com/dell/latitude-3420
+Lazada,MSI GF63 Thin 11UC Intel Core i5-11400H 8GB 512GB RTX3050 Win11,MSI,Rp11.999.000,4.8,456,2340,MSI Gaming Store,Bandung,https://lazada.co.id/msi/gf63-thin
+Tokopedia,HP 14s-fq1xxx AMD Ryzen 3 5300U 4GB 256GB SSD Win11,HP,Rp4.999.000,4.5,167,780,HP Budget Store,Bekasi,https://tokopedia.com/hp/14s-fq
+Shopee,Acer Aspire 3 A315-59 Intel Core i3-1215U 4GB 256GB SSD Win11,Acer,Rp5.299.000,4.6,223,1120,Acer Store,Tangerang,https://shopee.co.id/acer/aspire3
+Blibli,Lenovo V14 G3 AMD Ryzen 3 5300U 4GB 256GB SSD Win11,Lenovo,Rp4.799.000,4.4,145,670,Lenovo Value,Surabaya,https://blibli.com/lenovo/v14-g3
+Lazada,ASUS X415EA Intel Core i3-1115G4 4GB 256GB SSD Win11,ASUS,Rp5.199.000,4.6,189,890,Asus Store,Jakarta Timur,https://lazada.co.id/asus/x415ea
+Tokopedia,Dell Inspiron 15 3520 Intel Core i5-1235U 8GB 512GB SSD Win11,Dell,Rp8.499.000,4.7,312,1560,Dell Official,Semarang,https://tokopedia.com/dell/inspiron-15
+Shopee,MSI Prestige 14 A12UC Intel Core i5-1240P 8GB 512GB SSD MX550,MSI,Rp13.499.000,4.8,234,1240,MSI Prestige Store,Jakarta Pusat,https://shopee.co.id/msi/prestige-14
+Blibli,Lenovo Yoga Slim 7 14IAH7 Intel Core i5-12500H 8GB 512GB Win11,Lenovo,Rp14.999.000,4.9,378,1890,Lenovo Premium,Bali,https://blibli.com/lenovo/yoga-slim7
+Lazada,ASUS ProArt StudioBook 16 H5600QR AMD Ryzen 9 5900HX 16GB 1TB RTX3070,ASUS,Rp24.999.000,5.0,156,620,Asus ProArt,Jakarta Selatan,https://lazada.co.id/asus/proart-16
+Tokopedia,HP Omen 16-b1xxx Intel Core i7-12700H 16GB 512GB RTX3060 Win11,HP,Rp19.999.000,4.9,445,2130,HP Omen Store,Jakarta Utara,https://tokopedia.com/hp/omen-16
+Shopee,Acer Predator Helios 300 PH315-54 Intel i7-11800H 16GB 512GB RTX3060,Acer,Rp18.999.000,4.9,567,2680,Acer Predator,Bandung,https://shopee.co.id/acer/predator-helios
