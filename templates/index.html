@@ -27,6 +27,9 @@
                         <span class="status-dot"></span>
                         <span class="status-text">DATASET LOADED</span>
                     </div>
+                    <a href="/admin/login" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px; margin-left: 16px;">
+                        Login
+                    </a>
                 </div>
                 <button class="mobile-menu-toggle" id="mobile-menu-toggle">
                     <span></span>
@@ -42,55 +45,113 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-left">
-                    <p class="hero-label">BIG DATA LAPTOP EXPLORER</p>
                     <h1 class="hero-title">
-                        Discover laptops.<br>
-                        Compare smarter.
+                        Discover the Best<br>
+                        <span class="hero-title-accent">Laptop Deals</span><br>
+                        from Top Marketplaces
                     </h1>
                     <p class="hero-description">
-                        Explore laptop products from multiple e-commerce platforms. 
-                        Compare prices, ratings, and brands through collected marketplace data.
+                        Compare prices, ratings, and specifications across multiple Indonesian e-commerce platforms. 
+                        Make smarter purchasing decisions with data-driven insights.
                     </p>
-                    <p class="hero-product-count" id="hero-product-count"></p>
+                    <div class="hero-cta">
+                        <a href="#products" class="btn btn-primary btn-large">
+                            Explore Products
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                        <a href="#analytics" class="btn btn-outline btn-large">View Analytics</a>
+                    </div>
                 </div>
                 <div class="hero-right">
                     <div class="hero-visual">
-                        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="50" y="80" width="300" height="180" rx="8" fill="none" stroke="#84cc16" stroke-width="2"/>
-                            <rect x="50" y="80" width="300" height="20" fill="#84cc16" opacity="0.2"/>
-                            <rect x="80" y="130" width="80" height="60" rx="4" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-                            <rect x="180" y="130" width="80" height="60" rx="4" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-                            <rect x="280" y="130" width="50" height="60" rx="4" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-                            <circle cx="200" cy="240" r="8" fill="#84cc16"/>
-                            <line x1="100" y1="220" x2="300" y2="220" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                        <!-- Laptop Illustration -->
+                        <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background Glow -->
+                            <defs>
+                                <linearGradient id="purpleGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#9580ff;stop-opacity:0.3" />
+                                    <stop offset="100%" style="stop-color:#b8a4ff;stop-opacity:0.1" />
+                                </linearGradient>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            
+                            <!-- Background Circle -->
+                            <circle cx="200" cy="160" r="140" fill="url(#purpleGlow)"/>
+                            
+                            <!-- Laptop Screen -->
+                            <rect x="60" y="70" width="280" height="180" rx="8" fill="#1a1a1a" stroke="#9580ff" stroke-width="2"/>
+                            <rect x="60" y="70" width="280" height="12" fill="#9580ff" opacity="0.3"/>
+                            
+                            <!-- Screen Content - Product Cards -->
+                            <rect x="80" y="100" width="70" height="50" rx="4" fill="#141414" stroke="rgba(149,128,255,0.3)" stroke-width="1"/>
+                            <rect x="165" y="100" width="70" height="50" rx="4" fill="#141414" stroke="rgba(149,128,255,0.3)" stroke-width="1"/>
+                            <rect x="250" y="100" width="70" height="50" rx="4" fill="#141414" stroke="rgba(149,128,255,0.3)" stroke-width="1"/>
+                            
+                            <rect x="80" y="165" width="70" height="50" rx="4" fill="#141414" stroke="rgba(149,128,255,0.3)" stroke-width="1"/>
+                            <rect x="165" y="165" width="70" height="50" rx="4" fill="#141414" stroke="rgba(149,128,255,0.3)" stroke-width="1"/>
+                            <rect x="250" y="165" width="70" height="50" rx="4" fill="#141414" stroke="rgba(149,128,255,0.3)" stroke-width="1"/>
+                            
+                            <!-- Laptop Base -->
+                            <path d="M 40 250 L 60 250 L 60 255 Q 200 265, 340 255 L 340 250 L 360 250 L 350 270 L 50 270 Z" fill="#1a1a1a" stroke="#9580ff" stroke-width="2"/>
+                            
+                            <!-- Floating Data Points -->
+                            <circle cx="350" cy="100" r="4" fill="#9580ff" opacity="0.8">
+                                <animate attributeName="cy" values="100;90;100" dur="3s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="50" cy="150" r="3" fill="#b8a4ff" opacity="0.6">
+                                <animate attributeName="cy" values="150;160;150" dur="4s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="370" cy="180" r="3" fill="#9580ff" opacity="0.7">
+                                <animate attributeName="cy" values="180;170;180" dur="3.5s" repeatCount="indefinite"/>
+                            </circle>
+                            
+                            <!-- Chart Icon -->
+                            <g transform="translate(310, 30)">
+                                <rect x="0" y="15" width="8" height="25" rx="2" fill="#9580ff" opacity="0.6"/>
+                                <rect x="12" y="10" width="8" height="30" rx="2" fill="#9580ff" opacity="0.8"/>
+                                <rect x="24" y="5" width="8" height="35" rx="2" fill="#9580ff"/>
+                            </g>
                         </svg>
+                    </div>
+                    
+                    <!-- Floating Feature Cards -->
+                    <div class="floating-card floating-card-1">
+                        <div class="floating-card-icon">📊</div>
+                        <div class="floating-card-text">Real-time Analytics</div>
+                    </div>
+                    <div class="floating-card floating-card-2">
+                        <div class="floating-card-icon">💰</div>
+                        <div class="floating-card-text">Best Price Comparison</div>
+                    </div>
+                    <div class="floating-card floating-card-3">
+                        <div class="floating-card-icon">⭐</div>
+                        <div class="floating-card-text">Ratings & Reviews</div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Upload Section (shown when no dataset loaded) -->
-    <section class="upload-section" id="upload-section">
-        <div class="container">
-            <div class="upload-content">
-                <h2>Upload Dataset</h2>
-                <p>Upload a CSV file containing laptop data to begin exploring.</p>
-                <div class="upload-controls">
-                    <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
-                    <button class="btn btn-primary" id="choose-file-btn">Choose CSV File</button>
-                    <span class="file-name" id="file-name"></span>
-                    <button class="btn btn-primary" id="upload-btn" style="display: none;">Upload & Process</button>
-                </div>
-                <div class="upload-status" id="upload-status"></div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
             </div>
+            <p>Scroll to explore</p>
         </div>
     </section>
 
     <div class="separator"></div>
 
     <!-- Product Explorer Section -->
-    <section class="products-section" id="products">
+    <section class="products-section" id="products" style="display: none;">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Laptops to explore</h2>
@@ -130,7 +191,7 @@
     <div class="separator"></div>
 
     <!-- Analytics Section -->
-    <section class="analytics-section" id="analytics">
+    <section class="analytics-section" id="analytics" style="display: none;">
         <div class="container">
             <h2 class="section-title">Data Analytics</h2>
             
@@ -157,7 +218,7 @@
     <div class="separator"></div>
 
     <!-- Dataset Section -->
-    <section class="dataset-section" id="dataset">
+    <section class="dataset-section" id="dataset" style="display: none;">
         <div class="container">
             <h2 class="section-title">Dataset Information</h2>
             
@@ -203,6 +264,7 @@
     </footer>
 
     <script src="/static/js/main.js"></script>
+    <script src="/static/js/public-init.js"></script>
     <script src="/static/js/charts.js"></script>
 </body>
 </html>

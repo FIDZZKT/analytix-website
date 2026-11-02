@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ANALYTIX</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+    <!-- Admin Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-left">
+                    <div class="logo">ANALYTIX Admin</div>
+                    <div class="nav-links">
+                        <a href="{{ url_for('admin_dashboard') }}" class="active">Dashboard</a>
+                        <a href="{{ url_for('admin_products') }}">Manage Products</a>
+                        <a href="{{ url_for('index') }}" target="_blank">View Website</a>
+                    </div>
+                </div>
+                <div class="navbar-right">
+                    <span style="color: var(--text-secondary); font-size: 14px; margin-right: 16px;">
+                        👤 {{ current_user.username }}
+                    </span>
+                    <a href="{{ url_for('admin_logout') }}" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <div class="container">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <p>Overview and manage your laptop dataset</p>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💻</div>
+                    <div class="stat-content">
+                        <div class="stat-value">{{ stats.total_products }}</div>
+                        <div class="stat-label">Total Products</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🏪</div>
+                    <div class="stat-content">
+                        <div class="stat-value">{{ stats.unique_marketplaces }}</div>
+                        <div class="stat-label">Marketplaces</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🏷️</div>
+                    <div class="stat-content">
+                        <div class="stat-value">{{ stats.unique_brands }}</div>
+                        <div class="stat-label">Brands</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dataset Info -->
+            <div class="section-card">
+                <h2>Current Dataset</h2>
+                <div class="dataset-info">
+                    <div class="info-row">
+                        <span class="info-label">Filename:</span>
+                        <span class="info-value">{{ stats.filename }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Last Updated:</span>
+                        <span class="info-value">{{ stats.upload_timestamp }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="section-card">
+                <h2>Quick Actions</h2>
+                <div class="actions-grid">
+                    <div class="action-card">
+                        <h3>📤 Upload New CSV</h3>
+                        <p>Replace current dataset with new CSV file</p>
+                        <form method="POST" action="{{ url_for('admin_upload_csv') }}" enctype="multipart/form-data" id="upload-form">
+                            <input type="file" id="csv-file" name="file" accept=".csv" style="display: none;">
+                            <button type="button" class="btn btn-primary" onclick="document.getElementById('csv-file').click()">
+                                Choose CSV File
+                            </button>
+                            <span id="filename" style="display: block; margin-top: 12px; font-size: 14px; color: var(--text-secondary);"></span>
+                        </form>
+                    </div>
+                    
+                    <div class="action-card">
+                        <h3>💾 Export Dataset</h3>
+                        <p>Download current dataset as CSV</p>
+                        <a href="{{ url_for('admin_export_csv') }}" class="btn btn-primary">
+                            Download CSV
+                        </a>
+                    </div>
+                    
+                    <div class="action-card">
+                        <h3>➕ Add Product</h3>
+                        <p>Manually add new laptop product</p>
+                        <a href="{{ url_for('admin_add_product') }}" class="btn btn-primary">
+                            Add New Product
+                        </a>
+                    </div>
+                    
+                    <div class="action-card">
+                        <h3>📊 Manage Products</h3>
+                        <p>View, edit, or delete products</p>
+                        <a href="{{ url_for('admin_products') }}" class="btn btn-primary">
+                            Manage Products
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('csv-file').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('filename').textContent = 'Selected: ' + file.name;
+                document.getElementById('upload-form').submit();
+            }
+        });
+    </script>
+</body>
+</html>

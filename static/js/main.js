@@ -85,22 +85,36 @@ function renderProducts(products) {
     grid.innerHTML = products.map(product => `
         <div class="product-card">
             <div class="product-image">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="8" y="12" width="48" height="32" rx="2" stroke="white" stroke-width="2"/>
-                    <rect x="4" y="44" width="56" height="4" rx="1" stroke="white" stroke-width="2"/>
+                <svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Laptop Screen -->
+                    <rect x="15" y="10" width="90" height="55" rx="3" fill="#1a1a1a" stroke="#9580ff" stroke-width="2"/>
+                    <rect x="15" y="10" width="90" height="8" fill="#9580ff" opacity="0.3"/>
+                    
+                    <!-- Screen Content -->
+                    <rect x="25" y="25" width="20" height="15" rx="2" fill="#2a2a2a" stroke="#9580ff" stroke-width="1" opacity="0.5"/>
+                    <rect x="50" y="25" width="20" height="15" rx="2" fill="#2a2a2a" stroke="#9580ff" stroke-width="1" opacity="0.5"/>
+                    <rect x="75" y="25" width="20" height="15" rx="2" fill="#2a2a2a" stroke="#9580ff" stroke-width="1" opacity="0.5"/>
+                    
+                    <line x1="25" y1="50" x2="95" y2="50" stroke="#9580ff" stroke-width="1" opacity="0.3"/>
+                    <line x1="25" y1="55" x2="80" y2="55" stroke="#9580ff" stroke-width="1" opacity="0.3"/>
+                    
+                    <!-- Laptop Base -->
+                    <path d="M 5 65 L 15 65 L 15 70 Q 60 75 105 70 L 105 65 L 115 65 L 110 80 L 10 80 Z" fill="#1a1a1a" stroke="#9580ff" stroke-width="2"/>
+                    
+                    <!-- Brand Badge -->
+                    <circle cx="60" cy="72" r="3" fill="#9580ff"/>
                 </svg>
             </div>
-            <h3 class="product-name">${product.product_name || 'Unknown Product'}</h3>
-            <p class="product-brand">${product.brand || 'Unknown'}</p>
-            <p class="product-price">${formatPrice(product.price)}</p>
-            <div class="product-meta">
-                <span class="marketplace-badge">${product.marketplace || 'N/A'}</span>
-                <span class="product-rating">
-                    ${generateStars(product.rating || 0)}
-                    ${(product.rating || 0).toFixed(1)}
-                </span>
+            <div class="product-info">
+                <h3 class="product-name">${product.product_name || 'Unknown Product'}</h3>
+                <p class="product-price">${formatPrice(product.price)}</p>
+                <div class="product-footer">
+                    <span class="marketplace-badge">${product.marketplace || 'N/A'}</span>
+                    <a href="${product.product_url || '#'}" target="_blank" class="product-link">
+                        Lihat Produk →
+                    </a>
+                </div>
             </div>
-            <a href="${product.product_url || '#'}" target="_blank" class="product-link">View Product →</a>
         </div>
     `).join('');
 }
@@ -350,4 +364,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Mobile menu
     document.getElementById('mobile-menu-toggle').addEventListener('click', toggleMobileMenu);
+});
+
+
+// Animate numbers
+function animateNumber(element, target) {
+    const duration = 1500;
+    const start = 0;
+    const increment = target / (duration / 16);
+    let current = start;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            element.textContent = target.toLocaleString();
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(current).toLocaleString();
+        }
+    }, 16);
+}
+
+// Smooth scroll for hero CTA buttons
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
 });

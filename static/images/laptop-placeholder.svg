@@ -1,0 +1,32 @@
+<svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Laptop Screen -->
+    <rect x="15" y="10" width="90" height="55" rx="3" fill="#1a1a1a" stroke="#9580ff" stroke-width="2"/>
+    <rect x="15" y="10" width="90" height="8" fill="#9580ff" opacity="0.3"/>
+    
+    <!-- Screen Content - Product Cards -->
+    <rect x="25" y="25" width="20" height="15" rx="2" fill="#2a2a2a" stroke="#9580ff" stroke-width="1" opacity="0.5"/>
+    <rect x="50" y="25" width="20" height="15" rx="2" fill="#2a2a2a" stroke="#9580ff" stroke-width="1" opacity="0.5"/>
+    <rect x="75" y="25" width="20" height="15" rx="2" fill="#2a2a2a" stroke="#9580ff" stroke-width="1" opacity="0.5"/>
+    
+    <!-- Screen Lines -->
+    <line x1="25" y1="50" x2="95" y2="50" stroke="#9580ff" stroke-width="1" opacity="0.3"/>
+    <line x1="25" y1="55" x2="80" y2="55" stroke="#9580ff" stroke-width="1" opacity="0.3"/>
+    
+    <!-- Laptop Base/Keyboard -->
+    <path d="M 5 65 L 15 65 L 15 70 Q 60 75 105 70 L 105 65 L 115 65 L 110 80 L 10 80 Z" fill="#1a1a1a" stroke="#9580ff" stroke-width="2"/>
+    
+    <!-- Touchpad -->
+    <rect x="50" y="70" width="20" height="6" rx="1" fill="#2a2a2a" stroke="#9580ff" stroke-width="0.5" opacity="0.4"/>
+    
+    <!-- Brand Badge -->
+    <circle cx="60" cy="72" r="3" fill="#9580ff"/>
+    
+    <!-- Decorative Glow -->
+    <defs>
+        <radialGradient id="glow" cx="50%" cy="50%">
+            <stop offset="0%" style="stop-color:#9580ff;stop-opacity:0.3" />
+            <stop offset="100%" style="stop-color:#9580ff;stop-opacity:0" />
+        </radialGradient>
+    </defs>
+    <ellipse cx="60" cy="45" rx="40" ry="25" fill="url(#glow)"/>
+</svg>

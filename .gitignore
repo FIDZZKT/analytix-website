@@ -26,13 +26,8 @@ wheels/
 # Flask
 instance/
 .webassets-cache
-
-# Environment
 .env
-.venv
-
-# Data files
-data/
+.flaskenv
 
 # IDE
 .vscode/
@@ -41,6 +36,12 @@ data/
 *.swo
 *~
 
+# Agents
+.agents/
+
 # OS
 .DS_Store
 Thumbs.db
+
+# Backups
+*.backup

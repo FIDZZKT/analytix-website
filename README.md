@@ -171,6 +171,52 @@ Scroll to the "Data Analytics" section to view five interactive charts showing:
 
 The project includes `data/sample_laptops.csv` with 30 sample laptop products from Indonesian e-commerce platforms. This is **demo data for testing purposes only**. Replace it with real scraped data for production use.
 
+---
+
+## Deployment to Vercel
+
+ANALYTIX is fully configured for deployment to Vercel's serverless platform.
+
+### Quick Deploy
+
+1. **Push to Git repository**:
+   ```bash
+   git add .
+   git commit -m "Ready for deployment"
+   git push origin main
+   ```
+
+2. **Deploy to Vercel**:
+   - Go to https://vercel.com/new
+   - Import your repository
+   - Click "Deploy"
+
+### Detailed Instructions
+
+See **[VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)** for:
+- Step-by-step deployment guide
+- Vercel CLI deployment
+- Custom domain setup
+- Handling CSV uploads in serverless environment
+- Persistent storage solutions
+- Troubleshooting tips
+
+### Important Notes for Vercel
+
+- ✅ **Sample dataset works** out of the box (read-only)
+- ✅ **All features work** (search, filter, analytics, charts)
+- ⚠️ **CSV uploads won't persist** between requests (serverless limitation)
+- 💡 See deployment guide for **persistent storage solutions** (Vercel Blob, Supabase, MongoDB)
+
+### Files Added for Vercel
+
+- `vercel.json` - Vercel configuration
+- `api/index.py` - Serverless function entry point
+- `.vercelignore` - Files to exclude from deployment
+- `VERCEL_DEPLOYMENT.md` - Complete deployment guide
+
+---
+
 ## Troubleshooting
 
 ### CSV Encoding Issues
