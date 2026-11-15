@@ -2,7 +2,13 @@
 
 **Analytix** adalah platform perbandingan harga laptop dari 4 marketplace terbesar di Indonesia: **Shopee**, **Tokopedia**, **Lazada**, dan **Blibli**.
 
-![Analytix Dashboard](https://img.shields.io/badge/Version-1.0.0-blue) ![License](https://img.shields.io/badge/License-MIT-green)
+[![Website](https://img.shields.io/badge/Website-Live-brightgreen?style=for-the-badge&logo=vercel)](https://analytix-website.vercel.app)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)](https://github.com/FIDZZKT/analytix-website)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+> 🌐 **[OPEN WEBSITE →](https://analytix-website.vercel.app)**
+
+---
 
 ## 🎯 Fitur Utama
 
@@ -193,8 +199,9 @@ This project is licensed under the MIT License.
 ## 👨‍💻 Author
 
 **Analytix Team**
-- Website: [analytix.vercel.app](https://analytix.vercel.app)
-- GitHub: [@USERNAME](https://github.com/USERNAME)
+- 🌐 Website: [analytix-website.vercel.app](https://analytix-website.vercel.app)
+- 💻 GitHub: [@FIDZZKT](https://github.com/FIDZZKT)
+- 📦 Repository: [analytix-website](https://github.com/FIDZZKT/analytix-website)
 
 ## 🙏 Acknowledgments
 
