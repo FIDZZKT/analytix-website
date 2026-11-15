@@ -123,11 +123,40 @@
                     <div class="modal-overlay" onclick="closePreviewModal()"></div>
                     <div class="modal-content modal-large">
                         <div class="modal-header">
-                            <h3>📄 Preview: all-data-laptop.csv</h3>
+                            <div>
+                                <h3>📄 Preview: all-data-laptop.csv</h3>
+                                <p class="modal-subtitle" id="csvFileInfo">Loading file info...</p>
+                            </div>
                             <button onclick="closePreviewModal()" class="modal-close">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <div class="csv-preview-container">
+                            <!-- Preview Mode Toggle -->
+                            <div class="preview-mode-toggle">
+                                <button class="toggle-btn active" onclick="switchPreviewMode('table')" id="tableModeBtn">
+                                    <span>📊</span> Table View
+                                </button>
+                                <button class="toggle-btn" onclick="switchPreviewMode('raw')" id="rawModeBtn">
+                                    <span>📝</span> Raw CSV
+                                </button>
+                            </div>
+
+                            <!-- Table Preview -->
+                            <div id="tablePreview" class="csv-preview-container">
+                                <div class="table-wrapper">
+                                    <table class="csv-table" id="csvPreviewTable">
+                                        <thead id="csvTableHead"></thead>
+                                        <tbody id="csvTableBody"></tbody>
+                                    </table>
+                                </div>
+                                <div class="preview-pagination">
+                                    <button onclick="prevPreviewPage()" id="prevPageBtn" class="btn btn-sm btn-outline">← Previous</button>
+                                    <span id="previewPageInfo">Page 1 of 1</span>
+                                    <button onclick="nextPreviewPage()" id="nextPageBtn" class="btn btn-sm btn-outline">Next →</button>
+                                </div>
+                            </div>
+
+                            <!-- Raw Preview -->
+                            <div id="rawPreview" class="csv-preview-container" style="display: none;">
                                 <pre id="csvPreviewContent" class="csv-preview">Loading...</pre>
                             </div>
                         </div>
@@ -482,6 +511,11 @@
         }
 
         // CSV Preview Functions
+        let csvData = [];
+        let currentPreviewPage = 1;
+        const rowsPerPage = 10;
+        let previewMode = 'table'; // 'table' or 'raw'
+
         function setupCSVPreview() {
             document.getElementById('previewCSVBtn').addEventListener('click', showCSVPreview);
         }
@@ -489,29 +523,169 @@
         async function showCSVPreview() {
             const modal = document.getElementById('csvPreviewModal');
             const content = document.getElementById('csvPreviewContent');
+            const fileInfo = document.getElementById('csvFileInfo');
             
             modal.style.display = 'flex';
             content.textContent = 'Loading CSV file...';
+            fileInfo.textContent = 'Loading...';
             
             try {
                 const response = await fetch('all-data-laptop.csv');
                 if (!response.ok) throw new Error('Failed to load CSV');
                 
                 const csvText = await response.text();
-                const lines = csvText.split('\n');
+                const fileSize = (csvText.length / 1024).toFixed(2);
+                const lines = csvText.split('\n').filter(line => line.trim());
                 
-                // Show first 50 lines for preview
+                // Parse CSV
+                csvData = parseCSV(csvText);
+                
+                // Update file info
+                fileInfo.textContent = `${lines.length} rows • ${csvData.headers ? csvData.headers.length : 0} columns • ${fileSize} KB`;
+                
+                // Show table view by default
+                currentPreviewPage = 1;
+                renderTablePreview();
+                
+                // Also prepare raw view
                 const previewLines = lines.slice(0, 50);
                 const remainingLines = lines.length - 50;
-                
                 let previewText = previewLines.join('\n');
                 if (remainingLines > 0) {
                     previewText += `\n\n... and ${remainingLines} more lines\n(Download file to see complete data)`;
                 }
-                
                 content.textContent = previewText;
+                
             } catch (error) {
                 content.textContent = 'Error loading CSV file: ' + error.message;
+                fileInfo.textContent = 'Error loading file';
+            }
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim());
+            if (lines.length === 0) return { headers: [], rows: [] };
+            
+            const headers = lines[0].split(',').map(h => h.trim());
+            const rows = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length > 0) {
+                    rows.push(values);
+                }
+            }
+            
+            return { headers, rows };
+        }
+
+        function parseCSVLine(line) {
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    values.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            values.push(current.trim());
+            
+            return values;
+        }
+
+        function renderTablePreview() {
+            if (!csvData.headers || !csvData.rows) return;
+            
+            const thead = document.getElementById('csvTableHead');
+            const tbody = document.getElementById('csvTableBody');
+            
+            // Render headers
+            const headerRow = document.createElement('tr');
+            csvData.headers.forEach((header, index) => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                th.title = header;
+                if (index === 0) th.classList.add('sticky-col');
+                headerRow.appendChild(th);
+            });
+            thead.innerHTML = '';
+            thead.appendChild(headerRow);
+            
+            // Render rows with pagination
+            const startIdx = (currentPreviewPage - 1) * rowsPerPage;
+            const endIdx = Math.min(startIdx + rowsPerPage, csvData.rows.length);
+            const pageRows = csvData.rows.slice(startIdx, endIdx);
+            
+            tbody.innerHTML = '';
+            pageRows.forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach((cell, index) => {
+                    const td = document.createElement('td');
+                    td.textContent = cell.replace(/^"|"$/g, ''); // Remove quotes
+                    td.title = cell.replace(/^"|"$/g, '');
+                    if (index === 0) td.classList.add('sticky-col');
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+            
+            // Update pagination
+            updatePreviewPagination();
+        }
+
+        function updatePreviewPagination() {
+            const totalPages = Math.ceil(csvData.rows.length / rowsPerPage);
+            const pageInfo = document.getElementById('previewPageInfo');
+            const prevBtn = document.getElementById('prevPageBtn');
+            const nextBtn = document.getElementById('nextPageBtn');
+            
+            pageInfo.textContent = `Page ${currentPreviewPage} of ${totalPages} • Showing ${((currentPreviewPage - 1) * rowsPerPage) + 1}-${Math.min(currentPreviewPage * rowsPerPage, csvData.rows.length)} of ${csvData.rows.length} rows`;
+            
+            prevBtn.disabled = currentPreviewPage === 1;
+            nextBtn.disabled = currentPreviewPage === totalPages;
+        }
+
+        function prevPreviewPage() {
+            if (currentPreviewPage > 1) {
+                currentPreviewPage--;
+                renderTablePreview();
+            }
+        }
+
+        function nextPreviewPage() {
+            const totalPages = Math.ceil(csvData.rows.length / rowsPerPage);
+            if (currentPreviewPage < totalPages) {
+                currentPreviewPage++;
+                renderTablePreview();
+            }
+        }
+
+        function switchPreviewMode(mode) {
+            previewMode = mode;
+            
+            const tablePreview = document.getElementById('tablePreview');
+            const rawPreview = document.getElementById('rawPreview');
+            const tableModeBtn = document.getElementById('tableModeBtn');
+            const rawModeBtn = document.getElementById('rawModeBtn');
+            
+            if (mode === 'table') {
+                tablePreview.style.display = 'block';
+                rawPreview.style.display = 'none';
+                tableModeBtn.classList.add('active');
+                rawModeBtn.classList.remove('active');
+            } else {
+                tablePreview.style.display = 'none';
+                rawPreview.style.display = 'block';
+                tableModeBtn.classList.remove('active');
+                rawModeBtn.classList.add('active');
             }
         }
 
@@ -768,6 +942,12 @@
             margin: 0;
         }
 
+        .modal-subtitle {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin: 4px 0 0 0;
+        }
+
         .modal-close {
             background: none;
             border: none;
@@ -835,6 +1015,145 @@
 
         .csv-preview::-webkit-scrollbar-thumb:hover {
             background: var(--gray-400);
+        }
+
+        /* Preview Mode Toggle */
+        .preview-mode-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding: 4px;
+            background: var(--gray-100);
+            border-radius: 8px;
+            width: fit-content;
+        }
+
+        .toggle-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .toggle-btn:hover {
+            background: var(--white);
+            color: var(--gray-900);
+        }
+
+        .toggle-btn.active {
+            background: var(--white);
+            color: var(--blue-600);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* CSV Table Preview */
+        .table-wrapper {
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 500px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            background: var(--white);
+        }
+
+        .csv-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8125rem;
+        }
+
+        .csv-table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--gray-50);
+        }
+
+        .csv-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+            border-bottom: 2px solid var(--gray-300);
+            white-space: nowrap;
+            background: var(--gray-50);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .csv-table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-900);
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .csv-table tbody tr:hover {
+            background: var(--gray-50);
+        }
+
+        .csv-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .csv-table .sticky-col {
+            position: sticky;
+            left: 0;
+            background: var(--white);
+            z-index: 5;
+            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .csv-table thead .sticky-col {
+            background: var(--gray-50);
+            z-index: 15;
+        }
+
+        .csv-table tbody tr:hover .sticky-col {
+            background: var(--gray-50);
+        }
+
+        /* Preview Pagination */
+        .preview-pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: var(--gray-50);
+            border-radius: 8px;
+        }
+
+        .preview-pagination button {
+            padding: 6px 12px;
+            font-size: 0.875rem;
+        }
+
+        .preview-pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .preview-pagination span {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.875rem;
         }
     </style>
 </body>
