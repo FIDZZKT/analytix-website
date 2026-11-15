@@ -1,0 +1,56 @@
+id,name,brand,processor,processor_type,ram_gb,storage_gb,storage_type,gpu,gpu_type,screen_size,weight_kg,marketplace,seller,price_idr,original_price_idr,discount_pct,rating,review_count,sold_count,condition,date_scraped
+1,ASUS VivoBook 14 A1404ZA,ASUS,Intel Core i5-1235U,Intel Core i5,8,512,SSD,Intel Iris Xe Graphics,Integrated,14,1.5,Shopee,ASUS Official Store,8499000,9999000,15,4.8,1247,3421,Baru,2025-01-15
+3,ASUS ROG Strix G15 G513QC,ASUS,AMD Ryzen 7 5800H,AMD Ryzen 7,16,512,SSD,NVIDIA GeForce RTX 3050,NVIDIA RTX,15.6,2.3,Shopee,ROG Official Store,16999000,19999000,15,4.9,567,1234,Baru,2025-01-15
+11,ASUS ZenBook 14 UX425EA,ASUS,Intel Core i7-1165G7,Intel Core i7,16,512,SSD,Intel Iris Xe Graphics,Integrated,14,1.17,Lazada,ASUS Official Store,13999000,15999000,13,4.8,732,1876,Baru,2025-01-16
+12,ASUS TUF Gaming F15 FX507ZC,ASUS,Intel Core i5-12500H,Intel Core i5,8,512,SSD,NVIDIA GeForce RTX 3050,NVIDIA RTX,15.6,2.2,Blibli,ASUS Official Blibli,14499000,16999000,15,4.7,489,1102,Baru,2025-01-16
+13,ASUS VivoBook 15 M513UA,ASUS,AMD Ryzen 5 5500U,AMD Ryzen 5,8,512,SSD,AMD Radeon Graphics,Integrated,15.6,1.8,Tokopedia,ASUS Partner Store,7999000,8999000,11,4.6,621,2034,Baru,2025-01-16
+14,ASUS ProArt Studiobook 16 H5600QM,ASUS,AMD Ryzen 9 5900HX,AMD Ryzen 9,32,1000,SSD,NVIDIA GeForce RTX 3070,NVIDIA RTX,16,2.4,Shopee,ASUS Official Store,29999000,34999000,14,4.9,211,432,Baru,2025-01-16
+15,ASUS ExpertBook B1 B1500CBA,ASUS,Intel Core i3-1215U,Intel Core i3,4,256,SSD,Intel UHD Graphics,Integrated,15.6,1.9,Tokopedia,ASUS Reseller,5499000,6499000,15,4.5,314,987,Baru,2025-01-17
+16,ASUS ROG Zephyrus G14 GA401QM,ASUS,AMD Ryzen 9 5900HS,AMD Ryzen 9,16,1000,SSD,NVIDIA GeForce RTX 3060,NVIDIA RTX,14,1.72,Lazada,ROG Official Lazada,24999000,27999000,11,4.9,345,876,Baru,2025-01-17
+2,Lenovo IdeaPad Slim 3 15IAH8,Lenovo,Intel Core i5-12450H,Intel Core i5,8,512,SSD,Intel UHD Graphics,Integrated,15.6,1.7,Tokopedia,Lenovo Official,7999000,8999000,11,4.7,892,2103,Baru,2025-01-15
+17,Lenovo ThinkPad X1 Carbon Gen 10,Lenovo,Intel Core i7-1265U,Intel Core i7,16,512,SSD,Intel Iris Xe Graphics,Integrated,14,1.12,Blibli,Lenovo Official Blibli,21999000,24999000,12,4.8,276,643,Baru,2025-01-17
+18,Lenovo Legion 5 15ACH6H,Lenovo,AMD Ryzen 7 5800H,AMD Ryzen 7,16,512,SSD,NVIDIA GeForce RTX 3060,NVIDIA RTX,15.6,2.4,Shopee,Lenovo Official Store,19999000,22999000,13,4.8,412,987,Baru,2025-01-17
+19,Lenovo IdeaPad Gaming 3 15IHU6,Lenovo,Intel Core i5-11300H,Intel Core i5,8,512,SSD,NVIDIA GeForce GTX 1650,NVIDIA GTX,15.6,2.2,Lazada,Lenovo Official Lazada,11499000,12999000,12,4.6,534,1432,Baru,2025-01-17
+20,Lenovo Yoga Slim 7 Pro 14ACH5,Lenovo,AMD Ryzen 7 5800U,AMD Ryzen 7,16,512,SSD,NVIDIA GeForce MX450,NVIDIA GTX,14,1.35,Tokopedia,Lenovo Premium Partner,16499000,18499000,11,4.7,298,765,Baru,2025-01-18
+21,Lenovo V15 G2 ITL,Lenovo,Intel Core i3-1115G4,Intel Core i3,4,256,SSD,Intel UHD Graphics,Integrated,15.6,1.85,Blibli,Lenovo Reseller,4999000,5799000,14,4.4,421,1321,Baru,2025-01-18
+22,Lenovo ThinkBook 15 G3 ACL,Lenovo,AMD Ryzen 5 5500U,AMD Ryzen 5,8,512,SSD,AMD Radeon Graphics,Integrated,15.6,1.8,Shopee,Lenovo Official Store,9499000,10999000,14,4.6,356,987,Baru,2025-01-18
+23,Lenovo Legion 7 16ACHG6,Lenovo,AMD Ryzen 9 5900HX,AMD Ryzen 9,32,1000,SSD,NVIDIA GeForce RTX 3080,NVIDIA RTX,16,2.5,Lazada,Lenovo Official Lazada,32999000,36999000,11,4.9,187,342,Baru,2025-01-18
+5,HP Pavilion 14-ec1xxx,HP,AMD Ryzen 5 5625U,AMD Ryzen 5,8,512,SSD,AMD Radeon Graphics,Integrated,14,1.41,Lazada,HP Official Store,8799000,9999000,12,4.6,445,1102,Baru,2025-01-15
+24,HP Envy x360 13-ay1xxx,HP,AMD Ryzen 7 5700U,AMD Ryzen 7,16,512,SSD,AMD Radeon Graphics,Integrated,13.3,1.36,Tokopedia,HP Official Store,13999000,15999000,13,4.7,321,876,Baru,2025-01-18
+25,HP Omen 16-b1xxx,HP,Intel Core i7-12700H,Intel Core i7,16,512,SSD,NVIDIA GeForce RTX 3060,NVIDIA RTX,16.1,2.37,Blibli,HP Official Blibli,21499000,23999000,10,4.8,234,567,Baru,2025-01-18
+26,HP 14s-dq2xxx,HP,Intel Core i3-1115G4,Intel Core i3,4,256,SSD,Intel UHD Graphics,Integrated,14,1.46,Shopee,HP Store Reseller,5299000,5999000,12,4.4,678,2134,Baru,2025-01-19
+27,HP Spectre x360 14-ef2xxx,HP,Intel Core i7-1355U,Intel Core i7,16,1000,SSD,Intel Iris Xe Graphics,Integrated,13.5,1.42,Lazada,HP Premium Store,24999000,27999000,11,4.8,156,345,Baru,2025-01-19
+28,HP Victus 15-fb0xxx,HP,AMD Ryzen 5 5600H,AMD Ryzen 5,8,512,SSD,NVIDIA GeForce GTX 1650,NVIDIA GTX,15.6,2.29,Tokopedia,HP Official Store,10999000,12499000,12,4.6,398,1056,Baru,2025-01-19
+29,HP EliteBook 840 G9,HP,Intel Core i7-1255U,Intel Core i7,16,512,SSD,Intel Iris Xe Graphics,Integrated,14,1.33,Blibli,HP Business Store,18999000,21499000,12,4.7,143,312,Baru,2025-01-19
+30,Acer Aspire 5 A514-54,Acer,Intel Core i5-1135G7,Intel Core i5,8,512,SSD,NVIDIA GeForce MX350,NVIDIA GTX,14,1.5,Shopee,Acer Official Store,8299000,9499000,13,4.6,567,1876,Baru,2025-01-19
+31,Acer Predator Helios 300 PH315-55,Acer,Intel Core i7-12700H,Intel Core i7,16,512,SSD,NVIDIA GeForce RTX 3060,NVIDIA RTX,15.6,2.3,Tokopedia,Acer Official Store,19999000,22999000,13,4.8,423,987,Baru,2025-01-19
+32,Acer Swift 3 SF314-512,Acer,Intel Core i5-1240P,Intel Core i5,8,512,SSD,Intel Iris Xe Graphics,Integrated,14,1.2,Lazada,Acer Official Lazada,9499000,10999000,14,4.7,312,876,Baru,2025-01-20
+33,Acer Nitro 5 AN515-58,Acer,Intel Core i5-12500H,Intel Core i5,8,512,SSD,NVIDIA GeForce RTX 3050,NVIDIA RTX,15.6,2.5,Blibli,Acer Official Blibli,12999000,14999000,13,4.7,521,1432,Baru,2025-01-20
+34,Acer Chromebook Spin 514 CP514-3HH,Acer,AMD Ryzen 5 5625C,AMD Ryzen 5,8,256,SSD,AMD Radeon Graphics,Integrated,14,1.57,Shopee,Acer Partner Store,6999000,7999000,13,4.4,198,543,Baru,2025-01-20
+35,Acer ConceptD 5 Pro CN516-72P,Acer,Intel Core i7-11800H,Intel Core i7,32,1000,SSD,NVIDIA RTX A3000,NVIDIA RTX,16,2.1,Tokopedia,Acer Premium,34999000,39999000,13,4.9,87,134,Baru,2025-01-20
+36,Acer Extensa 15 EX215-54,Acer,Intel Core i3-1115G4,Intel Core i3,4,256,SSD,Intel UHD Graphics,Integrated,15.6,1.9,Lazada,Acer Official Lazada,4799000,5499000,13,4.3,345,1234,Baru,2025-01-20
+37,Dell XPS 13 9315,Dell,Intel Core i7-1250U,Intel Core i7,16,512,SSD,Intel Iris Xe Graphics,Integrated,13.4,1.17,Shopee,Dell Official Store,22999000,25999000,12,4.8,234,543,Baru,2025-01-20
+38,Dell Inspiron 15 3511,Dell,Intel Core i5-1135G7,Intel Core i5,8,512,SSD,NVIDIA GeForce MX350,NVIDIA GTX,15.6,1.8,Blibli,Dell Official Blibli,9999000,11499000,13,4.6,512,1432,Baru,2025-01-20
+39,Dell G15 5520,Dell,Intel Core i5-12500H,Intel Core i5,8,512,SSD,NVIDIA GeForce RTX 3050,NVIDIA RTX,15.6,2.5,Lazada,Dell Official Lazada,13999000,15999000,13,4.7,378,987,Baru,2025-01-21
+40,Dell Latitude 5520,Dell,Intel Core i7-1185G7,Intel Core i7,16,512,SSD,Intel Iris Xe Graphics,Integrated,15.6,1.78,Tokopedia,Dell Business Store,19999000,22999000,13,4.7,189,432,Baru,2025-01-21
+41,Dell Alienware m15 R7,Dell,AMD Ryzen 9 6900HX,AMD Ryzen 9,32,1000,SSD,NVIDIA GeForce RTX 3070 Ti,NVIDIA RTX,15.6,2.78,Shopee,Dell Official Store,34999000,39999000,13,4.9,134,243,Baru,2025-01-21
+42,Dell Vostro 14 5415,Dell,AMD Ryzen 5 5500U,AMD Ryzen 5,8,512,SSD,AMD Radeon Graphics,Integrated,14,1.54,Blibli,Dell Reseller Blibli,9499000,10999000,14,4.5,267,765,Baru,2025-01-21
+43,MSI GF63 Thin 11SC,MSI,Intel Core i5-11400H,Intel Core i5,8,512,SSD,NVIDIA GeForce GTX 1650,NVIDIA GTX,15.6,1.86,Shopee,MSI Official Store,10999000,12499000,12,4.6,432,1234,Baru,2025-01-21
+44,MSI Raider GE76 12UHS,MSI,Intel Core i9-12900HK,Intel Core i9,32,1000,SSD,NVIDIA GeForce RTX 3080 Ti,NVIDIA RTX,17.3,2.9,Tokopedia,MSI Premium Store,35000000,39999000,13,4.9,98,176,Baru,2025-01-21
+45,MSI Prestige 14 A12SC,MSI,Intel Core i7-1280P,Intel Core i7,16,512,SSD,NVIDIA GeForce GTX 1650,NVIDIA GTX,14,1.29,Lazada,MSI Official Lazada,17999000,19999000,10,4.7,187,432,Baru,2025-01-21
+46,MSI Katana GF66 12UGS,MSI,Intel Core i7-12650H,Intel Core i7,16,512,SSD,NVIDIA GeForce RTX 3070,NVIDIA RTX,15.6,2.25,Blibli,MSI Official Blibli,22999000,25999000,12,4.8,213,543,Baru,2025-01-22
+47,MSI Modern 14 B11MOU,MSI,Intel Core i5-1155G7,Intel Core i5,8,512,SSD,Intel Iris Xe Graphics,Integrated,14,1.3,Shopee,MSI Official Store,9999000,11499000,13,4.6,276,765,Baru,2025-01-22
+4,Apple MacBook Air M2,Apple,Apple M2,Apple M2,8,256,SSD,Apple M2 GPU 8-core,Apple GPU,13.6,1.24,Tokopedia,iBox Official,18999000,19999000,5,4.9,2341,5678,Baru,2025-01-15
+48,Apple MacBook Pro 14 M3 Pro,Apple,Apple M3 Pro,Apple M3,18,512,SSD,Apple M3 Pro GPU 18-core,Apple GPU,14.2,1.61,Shopee,iBox Reseller,32999000,34999000,6,4.9,876,2134,Baru,2025-01-22
+49,Apple MacBook Air M1,Apple,Apple M1,Apple M1,8,256,SSD,Apple M1 GPU 7-core,Apple GPU,13.3,1.29,Lazada,iStore Lazada,14999000,15999000,6,4.8,1543,4321,Baru,2025-01-22
+50,Apple MacBook Pro 13 M2,Apple,Apple M2,Apple M2,8,512,SSD,Apple M2 GPU 10-core,Apple GPU,13.3,1.4,Blibli,iBox Official Blibli,21999000,23999000,8,4.9,1123,2876,Baru,2025-01-22
+51,Apple MacBook Air 15 M2,Apple,Apple M2,Apple M2,8,256,SSD,Apple M2 GPU 10-core,Apple GPU,15.3,1.51,Tokopedia,iBox Premium,23999000,25999000,8,4.9,654,1432,Baru,2025-01-22
+52,Samsung Galaxy Book3 Pro 16,Samsung,Intel Core i7-1360P,Intel Core i7,16,512,SSD,Intel Iris Xe Graphics,Integrated,16,1.56,Shopee,Samsung Official Store,21999000,24999000,12,4.8,312,765,Baru,2025-01-22
+53,Samsung Galaxy Book2 360,Samsung,Intel Core i5-1235U,Intel Core i5,8,256,SSD,Intel Iris Xe Graphics,Integrated,13.3,1.06,Tokopedia,Samsung Official Store,14999000,16999000,12,4.7,234,543,Baru,2025-01-22
+54,Samsung Galaxy Book3 Ultra,Samsung,Intel Core i9-13900H,Intel Core i9,32,1000,SSD,NVIDIA GeForce RTX 4070,NVIDIA RTX,16,1.79,Lazada,Samsung Premium Lazada,34999000,38999000,10,4.9,145,287,Baru,2025-01-23
+55,Samsung Galaxy Book2 Pro 360 15,Samsung,Intel Core i7-1260P,Intel Core i7,16,512,SSD,Intel Iris Xe Graphics,Integrated,15.6,1.39,Blibli,Samsung Official Blibli,19999000,22999000,13,4.8,198,432,Baru,2025-01-23
+6,Xiaomi RedmiBook 15 Pro,Xiaomi,Intel Core i5-11320H,Intel Core i5,8,512,SSD,Intel Iris Xe Graphics,Integrated,15.6,1.9,Lazada,Mi Store Official,7499000,8499000,12,4.5,876,2567,Baru,2025-01-15
+7,Xiaomi Mi Notebook Pro 14 2021,Xiaomi,Intel Core i5-11300H,Intel Core i5,16,512,SSD,NVIDIA GeForce MX450,NVIDIA GTX,14,1.4,Tokopedia,Xiaomi Partner,11999000,13499000,11,4.6,432,1234,Baru,2025-01-15
+8,Xiaomi Mi Notebook Ultra 15.6,Xiaomi,Intel Core i7-11390H,Intel Core i7,16,512,SSD,NVIDIA GeForce MX450,NVIDIA GTX,15.6,1.6,Blibli,Xiaomi Official Blibli,13999000,15999000,13,4.7,321,876,Baru,2025-01-15
+9,Xiaomi Book Pro 16 2022,Xiaomi,Intel Core i7-1260P,Intel Core i7,16,512,SSD,Intel Iris Xe Graphics,Integrated,16,1.8,Shopee,Xiaomi Store,16999000,18999000,11,4.7,234,654,Baru,2025-01-15
+10,Xiaomi RedmiBook 14 2024,Xiaomi,Intel Core i5-13500H,Intel Core i5,16,512,SSD,Intel Iris Xe Graphics,Integrated,14,1.38,Lazada,Xiaomi Official Lazada,9999000,11499000,13,4.7,567,1543,Baru,2025-01-15

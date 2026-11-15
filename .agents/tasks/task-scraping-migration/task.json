@@ -1,0 +1,11 @@
+{
+  "task_id": "task-scraping-migration",
+  "task_description": "Migrate Analytix from hardcoded demo CSV data to real-time marketplace scraping system with MySQL database backend",
+  "status": "pending",
+  "feature_order": [
+    "FEAT-001",
+    "FEAT-002",
+    "FEAT-003"
+  ],
+  "blocked_reason": null
+}

@@ -1,0 +1,485 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Rekomendasi Laptop - Analytix</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <script src="assets/js/data.js"></script>
+  <style>
+    .header-left { display: flex; align-items: center; gap: 0.75rem; }
+
+    .rec-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+      .rec-layout { grid-template-columns: 1fr; }
+    }
+
+    /* Filter Panel */
+    .filter-panel { position: sticky; top: 80px; }
+
+    .usage-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;
+    }
+    .usage-btn {
+      border: 1.5px solid var(--gray-200);
+      border-radius: 4px;
+      padding: 0.6rem 0.5rem;
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      background: rgba(255,255,255,0.03);
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .usage-btn:hover { border-color: rgba(37,99,235,0.5); color: var(--gray-900); }
+    .usage-btn.selected {
+      border-color: var(--blue-600);
+      background: rgba(37,99,235,0.15);
+      color: var(--blue-600);
+    }
+    .usage-btn .ub-icon { font-size: 1.3rem; display: block; margin-bottom: 4px; }
+
+    .brand-checkboxes {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;
+    }
+    .cb-label {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.85rem; color: var(--gray-600);
+      cursor: pointer; padding: 4px;
+    }
+    .cb-label input[type=checkbox] { accent-color: var(--blue-600); width: 15px; height: 15px; }
+
+    .budget-row {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem;
+    }
+    #budgetRange { flex: 1; accent-color: var(--blue-600); }
+    #budgetDisplay {
+      min-width: 110px; background: var(--white);
+      border: 1.5px solid var(--gray-200); border-radius: 4px;
+      padding: 0.5rem 0.6rem; color: var(--gray-900); font-size: 0.88rem;
+      text-align: right;
+    }
+
+    .search-btn {
+      width: 100%; padding: 0.8rem;
+      background: linear-gradient(135deg, var(--blue-600), #1d4ed8);
+      color: #fff; border: none; border-radius: 4px;
+      font-size: 0.95rem; font-weight: 700; cursor: pointer;
+      transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .search-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, var(--blue-600));
+      box-shadow: 0 6px 20px rgba(37,99,235,0.45);
+      transform: translateY(-1px);
+    }
+
+    /* Results */
+    .results-header {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem;
+    }
+    .results-count {
+      font-size: 0.88rem; color: var(--gray-600);
+    }
+
+    .rec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .rec-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      display: flex; flex-direction: column;
+      transition: transform 0.25s, box-shadow 0.25s;
+      animation: fadeIn 0.35s ease;
+    }
+    .rec-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(37,99,235,0.18);
+    }
+
+    .rec-card-header {
+      padding: 1rem 1.25rem 0.5rem;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem;
+    }
+    .rc-name {
+      font-size: 0.9rem; font-weight: 600; color: var(--gray-900);
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      flex: 1;
+    }
+
+    .match-badge {
+      flex-shrink: 0; font-size: 0.72rem; font-weight: 700;
+      padding: 3px 9px; border-radius: 20px;
+    }
+    .match-high  { background: rgba(16,185,129,0.18); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+    .match-mid   { background: rgba(245,158,11,0.18); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); }
+    .match-low   { background: rgba(245,111,60,0.18); color: #f97316;       border: 1px solid rgba(245,111,60,0.3); }
+
+    .rec-card-body { padding: 0.5rem 1.25rem 1rem; flex: 1; }
+    .rc-price { font-size: 1.15rem; font-weight: 700; color: var(--blue-600); margin-bottom: 0.4rem; }
+    .rc-specs { font-size: 0.78rem; color: var(--gray-600); line-height: 1.75; }
+
+    .rec-card-footer {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .rc-reason {
+      font-size: 0.75rem; color: var(--gray-600);
+      font-style: italic; flex: 1;
+    }
+
+    .empty-state-rec {
+      grid-column: 1 / -1;
+      text-align: center; padding: 4rem 2rem;
+      color: var(--gray-600);
+    }
+    .empty-state-rec .es-icon { font-size: 3rem; display: block; margin-bottom: 1rem; opacity: 0.4; }
+
+    #resultsArea { display: none; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">Analytix</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-link" ><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="products.html" class="nav-link" ><span class="nav-icon">💻</span> Produk Laptop</a>
+      <a href="comparison.html" class="nav-link" ><span class="nav-icon">⚖️</span> Perbandingan Harga</a>
+      <a href="analysis.html" class="nav-link" ><span class="nav-icon">📈</span> Analisis Data</a>
+      <a href="trends.html" class="nav-link" ><span class="nav-icon">📉</span> Tren Harga</a>
+      <a href="prediction.html" class="nav-link" ><span class="nav-icon">📊</span> Proyeksi Harga</a>
+      <a href="recommendation.html" class="nav-link" ><span class="nav-icon">⭐</span> Rekomendasi</a>
+      
+      <a href="data.html" class="nav-link">
+        <span class="nav-icon">📁</span>
+        <span class="nav-text">Data CSV</span>
+      </a>
+      <a href="about.html" class="nav-link" ><span class="nav-icon">ℹ️</span> Tentang</a>
+    </nav>
+    <div class="sidebar-footer"><span>© 2025 Analytix</span></div>
+  </aside>
+
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <header class="header">
+      <div class="header-left">
+        <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <h1>⭐ Rekomendasi Laptop</h1>
+      </div>
+      <span style="font-size:0.8rem;color:var(--gray-600);">Berdasarkan dataset demo (55 produk)</span>
+    </header>
+
+    <div class="content">
+      <div class="rec-layout">
+
+        <!-- FILTER PANEL -->
+        <div class="filter-panel">
+          <div class="card">
+            <div class="section-title"><span class="title-icon">🎯</span> Kriteria Pencarian</div>
+
+            <!-- Budget -->
+            <div class="form-group" style="margin-bottom:1.1rem;">
+              <label class="form-label">Budget Maksimum</label>
+              <div class="budget-row">
+                <input type="range" id="budgetRange" min="4000000" max="35000000" step="500000" value="15000000">
+                <input type="text" id="budgetDisplay" value="Rp 15.000.000" readonly>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--gray-600);">
+                <span>Rp 4 jt</span><span>Rp 35 jt</span>
+              </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Brand -->
+            <div class="form-group" style="margin-bottom:1.1rem;">
+              <label class="form-label">Brand Pilihan</label>
+              <div class="brand-checkboxes" id="brandCheckboxes">
+                <!-- filled by JS -->
+              </div>
+              <label class="cb-label" style="margin-top:0.4rem;">
+                <input type="checkbox" id="cbAllBrands" checked onchange="toggleAllBrands(this)"> Semua Brand
+              </label>
+            </div>
+
+            <hr class="divider">
+
+            <!-- RAM -->
+            <div class="form-group" style="margin-bottom:1.1rem;">
+              <label class="form-label">RAM Minimal</label>
+              <select id="filterRam" class="form-control">
+                <option value="4">4 GB</option>
+                <option value="8" selected>8 GB</option>
+                <option value="16">16 GB</option>
+                <option value="32">32 GB</option>
+              </select>
+            </div>
+
+            <!-- Storage -->
+            <div class="form-group" style="margin-bottom:1.1rem;">
+              <label class="form-label">Kapasitas Storage Minimal</label>
+              <select id="filterStorage" class="form-control">
+                <option value="256">256 GB</option>
+                <option value="512" selected>512 GB</option>
+                <option value="1000">1 TB</option>
+              </select>
+            </div>
+
+            <!-- GPU -->
+            <div class="form-group" style="margin-bottom:1.1rem;">
+              <label class="form-label">Tipe GPU</label>
+              <select id="filterGpu" class="form-control">
+                <option value="">Semua</option>
+                <option value="Integrated">Integrated</option>
+                <option value="NVIDIA GTX">NVIDIA GTX</option>
+                <option value="NVIDIA RTX">NVIDIA RTX</option>
+                <option value="AMD Radeon">AMD Radeon</option>
+                <option value="Apple GPU">Apple GPU</option>
+              </select>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Usage -->
+            <div class="form-group" style="margin-bottom:1.25rem;">
+              <label class="form-label">Kebutuhan Penggunaan</label>
+              <div class="usage-grid">
+                <div class="usage-btn selected" data-usage="Sekolah" onclick="selectUsage(this)">
+                  <span class="ub-icon">🏫</span>Sekolah
+                </div>
+                <div class="usage-btn" data-usage="Pekerjaan" onclick="selectUsage(this)">
+                  <span class="ub-icon">💼</span>Pekerjaan
+                </div>
+                <div class="usage-btn" data-usage="Desain" onclick="selectUsage(this)">
+                  <span class="ub-icon">🎨</span>Desain
+                </div>
+                <div class="usage-btn" data-usage="Gaming" onclick="selectUsage(this)">
+                  <span class="ub-icon">🎮</span>Gaming
+                </div>
+              </div>
+            </div>
+
+            <button class="search-btn" onclick="findRecommendations()">
+              ⭐ Cari Rekomendasi
+            </button>
+          </div>
+        </div>
+
+        <!-- RESULTS AREA -->
+        <div>
+          <div id="resultsArea">
+            <div class="results-header">
+              <div class="section-title" style="margin-bottom:0;">
+                <span class="title-icon">📋</span> Hasil Rekomendasi
+              </div>
+              <div class="results-count" id="resultsCount"></div>
+            </div>
+            <div class="rec-grid" id="recGrid"></div>
+          </div>
+
+          <!-- Placeholder before search -->
+          <div id="placeholderArea" class="card" style="text-align:center;padding:3rem 2rem;">
+            <div style="font-size:3rem;margin-bottom:1rem;">⭐</div>
+            <div style="font-size:1rem;font-weight:600;color:var(--gray-900);margin-bottom:0.5rem;">
+              Temukan Laptop yang Tepat
+            </div>
+            <p style="font-size:0.88rem;color:var(--gray-600);max-width:380px;margin:0 auto;">
+              Atur kriteria di panel kiri sesuai kebutuhan dan anggaran Anda, lalu tekan
+              <strong>Cari Rekomendasi</strong>.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /page-wrapper -->
+  </div><!-- /main-content -->
+</div><!-- /app-layout -->
+
+<div class="demo-badge">DATA DEMO</div>
+
+<script>
+  // ── Sidebar ───────────────────────────────────────────────────────────────
+  document.querySelector('[]').classList.add('active');
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('active');
+  }
+
+  const IDR = n => new Intl.NumberFormat('id-ID', { style:'currency', currency:'IDR', minimumFractionDigits:0 }).format(n);
+
+  // ── Build brand checkboxes ─────────────────────────────────────────────────
+  const BRANDS = ['ASUS','Lenovo','HP','Acer','Dell','MSI','Apple','Samsung','Xiaomi'];
+  const cbContainer = document.getElementById('brandCheckboxes');
+  BRANDS.forEach(b => {
+    const lbl = document.createElement('label');
+    lbl.className = 'cb-label';
+    lbl.innerHTML = `<input type="checkbox" class="brand-cb" value="${b}" checked onchange="onBrandChange()"> ${b}`;
+    cbContainer.appendChild(lbl);
+  });
+
+  function toggleAllBrands(cb) {
+    document.querySelectorAll('.brand-cb').forEach(c => c.checked = cb.checked);
+  }
+  function onBrandChange() {
+    const all = document.querySelectorAll('.brand-cb');
+    const checked = document.querySelectorAll('.brand-cb:checked');
+    document.getElementById('cbAllBrands').checked = all.length === checked.length;
+  }
+
+  // ── Budget slider ─────────────────────────────────────────────────────────
+  const budgetRange   = document.getElementById('budgetRange');
+  const budgetDisplay = document.getElementById('budgetDisplay');
+  budgetRange.addEventListener('input', () => {
+    budgetDisplay.value = IDR(parseInt(budgetRange.value));
+  });
+
+  // ── Usage radio ───────────────────────────────────────────────────────────
+  let selectedUsage = 'Sekolah';
+  function selectUsage(el) {
+    document.querySelectorAll('.usage-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedUsage = el.dataset.usage;
+  }
+
+  // ── Scoring ───────────────────────────────────────────────────────────────
+  function scoreProduct(laptop, usage) {
+    let score = 50;
+    const p = laptop.processor_type;
+    const r = laptop.ram_gb;
+    const g = laptop.gpu_type;
+    const s = laptop.screen_size;
+    const price = laptop.price_idr;
+    const reasons = [];
+
+    if (usage === 'Sekolah') {
+      if (price < 8000000)                            { score += 20; reasons.push('Harga terjangkau'); }
+      if (['Intel Core i3','Intel Core i5','AMD Ryzen 5'].includes(p))
+                                                      { score += 15; reasons.push('Processor cukup'); }
+      if (r >= 8)                                     { score += 10; reasons.push('RAM cukup'); }
+      if (s >= 13 && s <= 15)                         { score +=  5; reasons.push('Layar portabel'); }
+    } else if (usage === 'Pekerjaan') {
+      if (['Intel Core i5','Intel Core i7','AMD Ryzen 5','AMD Ryzen 7'].includes(p))
+                                                      { score += 20; reasons.push('Processor produktif'); }
+      if (r >= 8 && r <= 16)                          { score += 15; reasons.push('RAM memadai'); }
+      if (laptop.storage_type === 'SSD')              { score += 10; reasons.push('SSD cepat'); }
+      if (s >= 14 && s <= 15.6)                       { score +=  5; reasons.push('Layar ideal kerja'); }
+    } else if (usage === 'Desain') {
+      if (['Intel Core i7','Intel Core i9','AMD Ryzen 7','AMD Ryzen 9'].includes(p))
+                                                      { score += 20; reasons.push('Processor kencang'); }
+      if (r >= 16)                                    { score += 20; reasons.push('RAM besar untuk desain'); }
+      if (!['Integrated','AMD Radeon'].includes(g))   { score += 15; reasons.push('GPU dedicated'); }
+      if (s >= 15)                                    { score +=  5; reasons.push('Layar lebar'); }
+    } else if (usage === 'Gaming') {
+      if (['NVIDIA RTX','NVIDIA GTX'].includes(g))    { score += 25; reasons.push('GPU gaming'); }
+      if (r >= 16)                                    { score += 15; reasons.push('RAM gaming 16GB+'); }
+      if (['AMD Ryzen 7','AMD Ryzen 9','Intel Core i7','Intel Core i9'].includes(p))
+                                                      { score += 10; reasons.push('Processor gaming'); }
+      if (s >= 15)                                    { score +=  5; reasons.push('Layar besar'); }
+    }
+
+    return { score: Math.min(score, 100), reasons };
+  }
+
+  // ── Main filter & render ──────────────────────────────────────────────────
+  function findRecommendations() {
+    const budget     = parseInt(budgetRange.value);
+    const minRam     = parseInt(document.getElementById('filterRam').value);
+    const minStorage = parseInt(document.getElementById('filterStorage').value);
+    const gpuType    = document.getElementById('filterGpu').value;
+    const checkedBrands = [...document.querySelectorAll('.brand-cb:checked')].map(c => c.value);
+    const allBrandsChecked = checkedBrands.length === BRANDS.length;
+
+    let pool = window.LAPTOP_DATA.filter(l => {
+      if (l.price_idr > budget) return false;
+      if (l.ram_gb < minRam) return false;
+      if (l.storage_gb < minStorage) return false;
+      if (gpuType && l.gpu_type !== gpuType) return false;
+      if (!allBrandsChecked && !checkedBrands.includes(l.brand)) return false;
+      return true;
+    });
+
+    // Score
+    const scored = pool.map(l => {
+      const { score, reasons } = scoreProduct(l, selectedUsage);
+      return { ...l, match_score: score, reasons };
+    });
+
+    // Sort: score desc, then price asc
+    scored.sort((a, b) => b.match_score - a.match_score || a.price_idr - b.price_idr);
+    const results = scored.slice(0, 12);
+
+    document.getElementById('placeholderArea').style.display = 'none';
+    document.getElementById('resultsArea').style.display     = 'block';
+    document.getElementById('resultsCount').textContent      = `Menampilkan ${results.length} laptop`;
+
+    const grid = document.getElementById('recGrid');
+    grid.innerHTML = '';
+
+    if (!results.length) {
+      grid.innerHTML = `<div class="empty-state-rec">
+        <span class="es-icon">😕</span>
+        <strong>Tidak ada laptop yang cocok.</strong><br>
+        <span>Coba perlonggar kriteria pencarian — misalnya naikkan budget atau kurangi filter.</span>
+      </div>`;
+      return;
+    }
+
+    results.forEach(l => {
+      const badgeClass = l.match_score >= 80 ? 'match-high' : l.match_score >= 60 ? 'match-mid' : 'match-low';
+      const mp = l.marketplace.toLowerCase();
+      const marketplaceClass = mp.includes('shopee') ? 'badge-shopee' :
+                               mp.includes('tokopedia') ? 'badge-tokopedia' :
+                               mp.includes('lazada') ? 'badge-lazada' : 'badge-blibli';
+      const card = document.createElement('div');
+      card.className = 'rec-card';
+      card.innerHTML = `
+        <div class="rec-card-header">
+          <div class="rc-name">${l.name}</div>
+          <span class="match-badge ${badgeClass}">${l.match_score}% cocok</span>
+        </div>
+        <div class="rec-card-body">
+          <div class="rc-price">${IDR(l.price_idr)}</div>
+          <div class="rc-specs">
+            🏷️ ${l.brand} &nbsp;|&nbsp; 💾 ${l.ram_gb}GB RAM &nbsp;|&nbsp; 💽 ${l.storage_gb}GB ${l.storage_type}<br>
+            🖥️ ${l.processor_type} &nbsp;|&nbsp; 🎮 ${l.gpu_type}<br>
+            📐 ${l.screen_size}" &nbsp;|&nbsp; ⭐ ${l.rating} (${l.review_count.toLocaleString('id-ID')} ulasan)
+          </div>
+        </div>
+        <div class="rec-card-footer">
+          <span class="rc-reason">${l.reasons.slice(0,2).join(', ')}</span>
+          <span class="badge ${marketplaceClass}">${l.marketplace}</span>
+        </div>`;
+      grid.appendChild(card);
+    });
+
+    document.getElementById('resultsArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+</body>
+</html>
+

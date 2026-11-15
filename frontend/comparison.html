@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Perbandingan Harga - Analytix</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="assets/js/data.js"></script>
+  <style>
+    .header-left { display: flex; align-items: center; gap: 0.75rem; }
+
+    /* Search Section */
+    .search-section {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: 6px; padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .search-section h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; }
+    .search-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .search-box-wrap { position: relative; flex: 1; min-width: 260px; }
+    .search-box-wrap input {
+      width: 100%; padding: 0.65rem 1rem 0.65rem 2.6rem;
+      background: var(--white); border: 1.5px solid var(--gray-300);
+      border-radius: 4px; color: var(--gray-900);
+      font-size: 0.9rem; font-family: inherit; transition: border-color 0.2s;
+    }
+    .search-box-wrap input:focus { outline: none; border-color: var(--blue-600); }
+    .search-box-wrap::before {
+      content: '🔍'; position: absolute; left: 0.8rem; top: 50%;
+      transform: translateY(-50%); pointer-events: none;
+    }
+    .btn-search {
+      padding: 0.65rem 1.4rem; background: linear-gradient(135deg, var(--blue-600), #1d4ed8);
+      color: #fff; border: none; border-radius: 4px;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-search:hover { opacity: 0.88; }
+
+    /* Autocomplete dropdown */
+    .autocomplete-dropdown {
+      position: absolute; top: 100%; left: 0; right: 0; z-index: 500;
+      background: var(--gray-50); border: 1px solid var(--gray-200);
+      border-radius: 0 0 4px 4px;
+      max-height: 240px; overflow-y: auto; display: none;
+    }
+    .autocomplete-dropdown.open { display: block; }
+    .autocomplete-item {
+      padding: 0.55rem 1rem; font-size: 0.85rem; color: var(--gray-900);
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.15s;
+    }
+    .autocomplete-item:hover { background: rgba(37,99,235,0.15); }
+    .autocomplete-item .ai-brand {
+      font-size: 0.7rem; color: var(--gray-600); background: rgba(255,255,255,0.06);
+      padding: 1px 6px; border-radius: 10px;
+    }
+
+    /* Result Section */
+    .comparison-result { display: none; }
+    .comparison-result.visible { display: block; }
+
+    .result-header {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;
+    }
+    .result-product-title { font-size: 1.05rem; font-weight: 700; color: var(--gray-900); }
+    .result-brand-badge {
+      font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+      background: rgba(37,99,235,0.15); color: var(--blue-600);
+      border: 1px solid rgba(37,99,235,0.25);
+    }
+
+    /* Summary cards */
+    .summary-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .summary-card {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: 6px; padding: 1.1rem 1.25rem;
+    }
+    .summary-card .sc-label { font-size: 0.72rem; color: var(--gray-600);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .summary-card .sc-value { font-size: 1.1rem; font-weight: 700; color: var(--gray-900); }
+    .summary-card.green .sc-value { color: #10b981; }
+    .summary-card.red .sc-value { color: #ef4444; }
+    .summary-card.amber .sc-value { color: var(--warning); }
+
+    /* Comparison table */
+    .comparison-table-wrap {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: 6px; overflow: hidden; margin-bottom: 1.5rem;
+    }
+    .comparison-table-wrap table th { white-space: nowrap; }
+    tr.best-row td { background: rgba(16,185,129,0.07) !important; }
+    tr.best-row td.price-col { color: #10b981; font-weight: 700; }
+    tr.best-row td.price-col::after {
+      content: ' ✓'; color: #10b981;
+    }
+    .badge-Shopee    { background: rgba(238,77,45,0.15);   color: #ee4d2d; border: 1px solid rgba(238,77,45,0.3); padding: 2px 8px; border-radius:20px; font-size:0.7rem; font-weight:700; }
+    .badge-Tokopedia { background: rgba(0,170,91,0.15);    color: #00aa5b; border: 1px solid rgba(0,170,91,0.3);  padding: 2px 8px; border-radius:20px; font-size:0.7rem; font-weight:700; }
+    .badge-Lazada    { background: rgba(123,136,245,0.15); color: #7b88f5; border: 1px solid rgba(123,136,245,0.3); padding: 2px 8px; border-radius:20px; font-size:0.7rem; font-weight:700; }
+    .badge-Blibli    { background: rgba(0,149,218,0.15);   color: #0095da; border: 1px solid rgba(0,149,218,0.3); padding: 2px 8px; border-radius:20px; font-size:0.7rem; font-weight:700; }
+
+    /* Chart */
+    .comparison-chart-card {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: 6px; padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .comparison-chart-card canvas { max-height: 220px; }
+
+    /* Empty state */
+    .empty-msg {
+      background: rgba(37,99,235,0.07); border: 1px solid rgba(37,99,235,0.18);
+      border-radius: 6px; padding: 2rem; text-align: center;
+      color: var(--gray-600); font-size: 0.9rem; margin-bottom: 1.5rem;
+      display: none;
+    }
+    .empty-msg.visible { display: block; }
+
+    /* Popular section */
+    .popular-section {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: 6px; padding: 1.5rem;
+    }
+    .popular-section h2 { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+    .popular-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .popular-chip {
+      padding: 0.4rem 1rem; border-radius: 20px;
+      background: rgba(37,99,235,0.1); border: 1px solid rgba(37,99,235,0.2);
+      color: var(--blue-600); font-size: 0.8rem; font-weight: 500;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .popular-chip:hover { background: rgba(37,99,235,0.2); }
+
+    @media (max-width: 700px) {
+      .search-row { flex-direction: column; align-items: stretch; }
+      .btn-search { width: 100%; }
+      .comparison-table-wrap { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">Analytix</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-link">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="products.html" class="nav-link">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+        </svg>
+        <span>Produk</span>
+      </a>
+      <a href="comparison.html" class="nav-link active">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+        <span>Perbandingan</span>
+      </a>
+      <a href="analysis.html" class="nav-link">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <span>Analisis</span>
+      </a>
+      <a href="trends.html" class="nav-link">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+        </svg>
+        <span>Tren Harga</span>
+      </a>
+      <a href="prediction.html" class="nav-link">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        <span>Prediksi</span>
+      </a>
+      <a href="recommendation.html" class="nav-link">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+        </svg>
+        <span>Rekomendasi</span>
+      </a>
+      <a href="data.html" class="nav-link">
+        <span>📁</span>
+        <span>Data CSV</span>
+      </a>
+      <a href="about.html" class="nav-link">
+        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Tentang</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">© 2025 Analytix</div>
+  </aside>
+
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+  <div class="main">
+    <header class="header">
+      <div class="header-left">
+        <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <h1 class="header-title">Perbandingan Harga</h1>
+      </div>
+      <div class="header-actions">
+        <span class="badge-demo">Demo Data</span>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- SEARCH -->
+      <div class="search-section">
+        <h2>🔍 Cari &amp; Bandingkan Laptop</h2>
+        <p style="font-size:0.82rem;color:var(--gray-600);margin-bottom:0.85rem">
+          Ketik nama atau model laptop untuk melihat perbandingan harga di berbagai marketplace.
+        </p>
+        <div class="search-row">
+          <div class="search-box-wrap">
+            <input type="text" id="compSearchInput" placeholder="Contoh: ASUS VivoBook, MacBook Air, Lenovo IdeaPad..."
+              autocomplete="off" oninput="handleSearchInput()" onkeydown="handleSearchKey(event)">
+            <div class="autocomplete-dropdown" id="autoDropdown"></div>
+          </div>
+          <button class="btn-search" onclick="runComparison()">Bandingkan</button>
+        </div>
+      </div>
+
+      <!-- EMPTY MESSAGE -->
+      <div class="empty-msg" id="emptyMsg">
+        <div style="font-size:2rem;margin-bottom:0.5rem">⚖️</div>
+        <strong>Produk tidak ditemukan di lebih dari satu marketplace</strong><br>
+        Laptop ini hanya tersedia di satu marketplace dalam dataset demo kami.
+        Coba cari produk lain atau lihat laptop populer di bawah ini.
+      </div>
+
+      <!-- COMPARISON RESULT -->
+      <div class="comparison-result" id="compResult">
+        <div class="result-header">
+          <div>
+            <div class="result-product-title" id="resultTitle">—</div>
+            <div style="font-size:0.78rem;color:var(--gray-600);margin-top:2px" id="resultSub"></div>
+          </div>
+          <span class="result-brand-badge" id="resultBrand"></span>
+        </div>
+
+        <!-- Summary cards -->
+        <div class="summary-grid">
+          <div class="summary-card green">
+            <div class="sc-label">Harga Termurah</div>
+            <div class="sc-value" id="sumCheapest">—</div>
+          </div>
+          <div class="summary-card red">
+            <div class="sc-label">Harga Termahal</div>
+            <div class="sc-value" id="sumPriciest">—</div>
+          </div>
+          <div class="summary-card amber">
+            <div class="sc-label">Selisih</div>
+            <div class="sc-value" id="sumDiff">—</div>
+          </div>
+          <div class="summary-card green">
+            <div class="sc-label">Potensi Penghematan</div>
+            <div class="sc-value" id="sumSaving">—</div>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="comparison-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Marketplace</th>
+                <th>Seller</th>
+                <th>Harga</th>
+                <th>Harga Asli</th>
+                <th>Diskon</th>
+                <th>Rating</th>
+                <th>Ulasan</th>
+                <th>Kondisi</th>
+              </tr>
+            </thead>
+            <tbody id="compTableBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Price Chart -->
+        <div class="comparison-chart-card">
+          <div style="font-size:0.95rem;font-weight:600;margin-bottom:1rem">📊 Perbandingan Harga Visual</div>
+          <canvas id="compPriceChart"></canvas>
+        </div>
+      </div>
+
+      <!-- POPULAR LAPTOPS -->
+      <div class="popular-section">
+        <h2>⭐ Laptop Populer — Tersedia di 2+ Marketplace</h2>
+        <p style="font-size:0.82rem;color:var(--gray-600);margin-bottom:0.85rem">
+          Klik untuk langsung membandingkan harga laptop populer berikut:
+        </p>
+        <div class="popular-chips" id="popularChips"></div>
+        <div style="font-size:0.76rem;color:var(--gray-600)">
+          Laptop dikelompokkan berdasarkan kesamaan nama dalam dataset demo.
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div class="demo-badge">DATA DEMO</div>
+
+<script>
+  document.querySelector('[data-page="comparison"]').classList.add('active');
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('active');
+  }
+
+  const data = window.LAPTOP_DATA;
+  let compChartInstance = null;
+
+  // --- Group products by base model name ---
+  // Strategy: group by brand + first 3 significant words of name
+  function getGroupKey(d) {
+    const words = d.name.split(' ').slice(0,4).join(' ');
+    return words.toLowerCase();
+  }
+
+  // Build popularity map: unique names that appear in 2+ marketplaces
+  const groupMap = {};
+  data.forEach(d => {
+    const key = getGroupKey(d);
+    if (!groupMap[key]) groupMap[key] = { name: d.name, brand: d.brand, items: [] };
+    groupMap[key].items.push(d);
+  });
+
+  const multiMPGroups = Object.values(groupMap).filter(g => {
+    const mps = [...new Set(g.items.map(i => i.marketplace))];
+    return mps.length >= 2;
+  });
+
+  // Populate popular chips (top 5)
+  const popularChips = document.getElementById('popularChips');
+  multiMPGroups.slice(0,8).forEach(g => {
+    const chip = document.createElement('button');
+    chip.className = 'popular-chip';
+    chip.textContent = g.name;
+    chip.onclick = () => {
+      document.getElementById('compSearchInput').value = g.name;
+      runComparison();
+    };
+    popularChips.appendChild(chip);
+  });
+
+  // --- Autocomplete ---
+  function handleSearchInput() {
+    const q = document.getElementById('compSearchInput').value.toLowerCase().trim();
+    const dd = document.getElementById('autoDropdown');
+    if (q.length < 2) { dd.classList.remove('open'); return; }
+    const matches = data.filter(d => d.name.toLowerCase().includes(q));
+    const unique = [...new Map(matches.map(d => [d.name, d])).values()].slice(0,8);
+    if (!unique.length) { dd.classList.remove('open'); return; }
+    dd.innerHTML = unique.map(d => `
+      <div class="autocomplete-item" onclick="selectSuggestion('${d.name.replace(/'/g,"\\'")}')">
+        <span>${d.name}</span>
+        <span class="ai-brand">${d.brand}</span>
+      </div>`).join('');
+    dd.classList.add('open');
+  }
+
+  function handleSearchKey(e) {
+    if (e.key === 'Enter') { runComparison(); document.getElementById('autoDropdown').classList.remove('open'); }
+    if (e.key === 'Escape') { document.getElementById('autoDropdown').classList.remove('open'); }
+  }
+
+  function selectSuggestion(name) {
+    document.getElementById('compSearchInput').value = name;
+    document.getElementById('autoDropdown').classList.remove('open');
+    runComparison();
+  }
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.search-box-wrap'))
+      document.getElementById('autoDropdown').classList.remove('open');
+  });
+
+  // --- Run comparison ---
+  function runComparison() {
+    const q = document.getElementById('compSearchInput').value.toLowerCase().trim();
+    document.getElementById('autoDropdown').classList.remove('open');
+    if (!q) return;
+
+    // Find matching products (fuzzy name match)
+    const matches = data.filter(d => d.name.toLowerCase().includes(q));
+
+    document.getElementById('emptyMsg').classList.remove('visible');
+    document.getElementById('compResult').classList.remove('visible');
+
+    if (!matches.length) {
+      document.getElementById('emptyMsg').classList.add('visible');
+      document.getElementById('emptyMsg').innerHTML = `
+        <div style="font-size:2rem;margin-bottom:0.5rem">🔍</div>
+        <strong>Produk tidak ditemukan</strong><br>
+        Tidak ada laptop yang cocok dengan kata kunci "<em>${q}</em>". Coba kata kunci lain.`;
+      return;
+    }
+
+    const uniqueMPs = [...new Set(matches.map(d => d.marketplace))];
+    if (uniqueMPs.length < 2) {
+      document.getElementById('emptyMsg').classList.add('visible');
+      document.getElementById('emptyMsg').innerHTML = `
+        <div style="font-size:2rem;margin-bottom:0.5rem">⚖️</div>
+        <strong>Hanya tersedia di satu marketplace</strong><br>
+        Laptop "<em>${matches[0].name}</em>" hanya ditemukan di <strong>${uniqueMPs[0]}</strong> dalam dataset demo kami.`;
+      return;
+    }
+
+    renderComparison(matches);
+  }
+
+  function renderComparison(items) {
+    // Find cheapest
+    const minPrice = Math.min(...items.map(i => i.price_idr));
+    const maxPrice = Math.max(...items.map(i => i.price_idr));
+    const diff = maxPrice - minPrice;
+    const savings = diff;
+
+    document.getElementById('resultTitle').textContent = items[0].name;
+    document.getElementById('resultBrand').textContent = items[0].brand;
+    document.getElementById('resultSub').textContent =
+      `Ditemukan ${items.length} penawaran di ${[...new Set(items.map(i=>i.marketplace))].join(', ')}`;
+    document.getElementById('sumCheapest').textContent = window.formatIDR(minPrice);
+    document.getElementById('sumPriciest').textContent = window.formatIDR(maxPrice);
+    document.getElementById('sumDiff').textContent = window.formatIDR(diff);
+    document.getElementById('sumSaving').textContent = window.formatIDR(savings);
+
+    // Table
+    const tbody = document.getElementById('compTableBody');
+    const sorted = [...items].sort((a,b) => a.price_idr - b.price_idr);
+    tbody.innerHTML = sorted.map(d => `
+      <tr class="${d.price_idr === minPrice ? 'best-row' : ''}">
+        <td><span class="badge-${d.marketplace}">${d.marketplace}</span></td>
+        <td style="font-size:0.82rem;color:var(--gray-600)">${d.seller}</td>
+        <td class="price-col">${window.formatIDR(d.price_idr)}</td>
+        <td style="text-decoration:line-through;color:var(--gray-600);font-size:0.82rem">${window.formatIDR(d.original_price_idr)}</td>
+        <td><span style="color:#10b981;font-weight:600">${d.discount_pct}%</span></td>
+        <td style="color:#fbbf24">★ ${d.rating}</td>
+        <td>${d.review_count.toLocaleString('id-ID')}</td>
+        <td><span class="badge badge-success">${d.condition}</span></td>
+      </tr>`).join('');
+
+    // Chart
+    const mpColors = { Shopee:'rgba(238,77,45,0.7)', Tokopedia:'rgba(0,170,91,0.7)',
+                       Lazada:'rgba(123,136,245,0.7)', Blibli:'rgba(0,149,218,0.7)' };
+    const borderColors = { Shopee:'#ee4d2d', Tokopedia:'#00aa5b', Lazada:'#7b88f5', Blibli:'#0095da' };
+
+    if (compChartInstance) { compChartInstance.destroy(); compChartInstance = null; }
+    compChartInstance = new Chart(document.getElementById('compPriceChart'), {
+      type: 'bar',
+      data: {
+        labels: sorted.map(d => d.marketplace),
+        datasets: [{
+          label: 'Harga (IDR)',
+          data: sorted.map(d => d.price_idr),
+          backgroundColor: sorted.map(d => mpColors[d.marketplace] || 'rgba(96,165,250,0.7)'),
+          borderColor: sorted.map(d => borderColors[d.marketplace] || '#60a5fa'),
+          borderWidth: 2, borderRadius: 6
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => window.formatIDR(ctx.raw) } }
+        },
+        scales: {
+          x: {
+            grid: { color: 'var(--gray-200)' },
+            ticks: { callback: v => 'Rp '+(v/1e6).toFixed(0)+'jt', color: '#94a3b8' }
+          },
+          y: { grid: { color: 'var(--gray-200)' }, ticks: { color: '#94a3b8' } }
+        }
+      }
+    });
+
+    document.getElementById('compResult').classList.add('visible');
+  }
+
+  // Auto-load first popular item on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    if (multiMPGroups.length) {
+      document.getElementById('compSearchInput').value = multiMPGroups[0].name;
+      runComparison();
+    }
+  });
+</script>
+</body>
+</html>
+

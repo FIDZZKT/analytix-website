@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Laptop - Analytix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">📊</span>
+                    <span class="logo-text">Analytix</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-link">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="products.html" class="nav-link">
+                    <span class="nav-icon">💻</span>
+                    <span class="nav-text">Produk</span>
+                </a>
+                <a href="comparison.html" class="nav-link">
+                    <span class="nav-icon">⚖️</span>
+                    <span class="nav-text">Perbandingan</span>
+                </a>
+                <a href="analysis.html" class="nav-link">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-text">Analisis</span>
+                </a>
+                <a href="trends.html" class="nav-link">
+                    <span class="nav-icon">📉</span>
+                    <span class="nav-text">Tren Harga</span>
+                </a>
+                <a href="prediction.html" class="nav-link">
+                    <span class="nav-icon">🔮</span>
+                    <span class="nav-text">Prediksi</span>
+                </a>
+                <a href="recommendation.html" class="nav-link">
+                    <span class="nav-icon">⭐</span>
+                    <span class="nav-text">Rekomendasi</span>
+                </a>
+                <a href="data.html" class="nav-link active">
+                    <span class="nav-icon">📁</span>
+                    <span class="nav-text">Data CSV</span>
+                </a>
+                <a href="about.html" class="nav-link">
+                    <span class="nav-icon">ℹ️</span>
+                    <span class="nav-text">Tentang</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <p>© 2025 Analytix</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <header class="header">
+                <div class="header-left">
+                    <h1 class="page-title">Data Laptop CSV</h1>
+                    <p class="page-subtitle">Dataset lengkap laptop dari 4 marketplace</p>
+                </div>
+                <div class="header-actions">
+                    <button id="refreshBtn" class="btn btn-outline">
+                        <span>🔄</span>
+                        Refresh Data
+                    </button>
+                </div>
+            </header>
+
+            <div class="content">
+                <!-- Dataset Info Card -->
+                <div class="card dataset-info-card">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title">📁 Dataset: all-data-laptop.csv</h2>
+                            <p class="card-subtitle">File CSV lengkap dengan 55 records laptop dari 4 marketplace</p>
+                        </div>
+                        <div class="dataset-actions">
+                            <button id="previewCSVBtn" class="btn btn-outline">
+                                <span>👁️</span>
+                                Preview CSV
+                            </button>
+                            <a href="all-data-laptop.csv" download="all-data-laptop.csv" class="btn btn-primary">
+                                <span>📥</span>
+                                Download Raw CSV
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body dataset-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">📄 Filename:</span>
+                            <code>all-data-laptop.csv</code>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">📊 Format:</span>
+                            <code>CSV (Comma Separated Values)</code>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">🔢 Total Columns:</span>
+                            <code>22 columns</code>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">📦 Encoding:</span>
+                            <code>UTF-8</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CSV Preview Modal -->
+                <div id="csvPreviewModal" class="modal" style="display: none;">
+                    <div class="modal-overlay" onclick="closePreviewModal()"></div>
+                    <div class="modal-content modal-large">
+                        <div class="modal-header">
+                            <h3>📄 Preview: all-data-laptop.csv</h3>
+                            <button onclick="closePreviewModal()" class="modal-close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="csv-preview-container">
+                                <pre id="csvPreviewContent" class="csv-preview">Loading...</pre>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button onclick="closePreviewModal()" class="btn btn-outline">Close</button>
+                            <a href="all-data-laptop.csv" download="all-data-laptop.csv" class="btn btn-primary">
+                                <span>📥</span>
+                                Download CSV
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Summary Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💻</div>
+                        <div class="stat-details">
+                            <p class="stat-value" id="totalRecords">0</p>
+                            <p class="stat-label">Total Records</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏪</div>
+                        <div class="stat-details">
+                            <p class="stat-value" id="totalMarketplaces">0</p>
+                            <p class="stat-label">Marketplace</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏷️</div>
+                        <div class="stat-details">
+                            <p class="stat-value" id="totalBrands">0</p>
+                            <p class="stat-label">Brand</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-details">
+                            <p class="stat-value" id="lastUpdate">-</p>
+                            <p class="stat-label">Last Update</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter & Search -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Filter Data</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="filter-row">
+                            <div class="form-group">
+                                <label>Cari Produk</label>
+                                <input type="text" id="searchInput" class="form-control" placeholder="Cari nama laptop...">
+                            </div>
+                            <div class="form-group">
+                                <label>Brand</label>
+                                <select id="brandFilter" class="form-control">
+                                    <option value="">Semua Brand</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Marketplace</label>
+                                <select id="marketplaceFilter" class="form-control">
+                                    <option value="">Semua Marketplace</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button id="resetBtn" class="btn btn-outline w-full">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title">Data Laptop</h2>
+                            <span class="badge" id="recordCount">0 records</span>
+                        </div>
+                        <button id="exportFilteredBtn" class="btn btn-outline">
+                            <span>📊</span>
+                            Export Filtered Data
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="data-table" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama Laptop</th>
+                                        <th>Brand</th>
+                                        <th>Processor</th>
+                                        <th>RAM (GB)</th>
+                                        <th>Storage</th>
+                                        <th>GPU</th>
+                                        <th>Layar</th>
+                                        <th>Marketplace</th>
+                                        <th>Harga</th>
+                                        <th>Rating</th>
+                                        <th>Terjual</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    <tr>
+                                        <td colspan="12" class="text-center">Loading data...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/data.js"></script>
+    <script>
+        // Load data from data.js
+        let laptopData = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            setupEventListeners();
+            setupCSVPreview();
+        });
+
+        function loadData() {
+            // Load from window.LAPTOP_DATA (defined in data.js)
+            if (typeof window.LAPTOP_DATA !== 'undefined') {
+                laptopData = window.LAPTOP_DATA;
+                populateStats();
+                populateFilters();
+                renderTable(laptopData);
+            } else {
+                console.error('LAPTOP_DATA not found');
+            }
+        }
+
+        function populateStats() {
+            const brands = [...new Set(laptopData.map(item => item.brand))];
+            const marketplaces = [...new Set(laptopData.map(item => item.marketplace))];
+            const latestDate = laptopData.length > 0 ? laptopData[0].date_scraped : '-';
+
+            document.getElementById('totalRecords').textContent = laptopData.length;
+            document.getElementById('totalMarketplaces').textContent = marketplaces.length;
+            document.getElementById('totalBrands').textContent = brands.length;
+            document.getElementById('lastUpdate').textContent = latestDate;
+        }
+
+        function populateFilters() {
+            const brands = [...new Set(laptopData.map(item => item.brand))].sort();
+            const marketplaces = [...new Set(laptopData.map(item => item.marketplace))].sort();
+
+            const brandFilter = document.getElementById('brandFilter');
+            brands.forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                brandFilter.appendChild(option);
+            });
+
+            const marketplaceFilter = document.getElementById('marketplaceFilter');
+            marketplaces.forEach(marketplace => {
+                const option = document.createElement('option');
+                option.value = marketplace;
+                option.textContent = marketplace;
+                marketplaceFilter.appendChild(option);
+            });
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            const recordCount = document.getElementById('recordCount');
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="12" class="text-center">Tidak ada data</td></tr>';
+                recordCount.textContent = '0 records';
+                return;
+            }
+
+            const rows = data.map(item => `
+                <tr>
+                    <td>${item.id}</td>
+                    <td><strong>${item.name}</strong></td>
+                    <td><span class="badge badge-brand">${item.brand}</span></td>
+                    <td>${item.processor}</td>
+                    <td>${item.ram_gb} GB</td>
+                    <td>${item.storage_gb} GB ${item.storage_type}</td>
+                    <td>${item.gpu_type}</td>
+                    <td>${item.screen_size}"</td>
+                    <td><span class="badge badge-marketplace">${item.marketplace}</span></td>
+                    <td><strong>Rp ${formatPrice(item.price_idr)}</strong></td>
+                    <td>⭐ ${item.rating} (${item.review_count})</td>
+                    <td>${formatNumber(item.sold_count)}</td>
+                </tr>
+            `).join('');
+
+            tbody.innerHTML = rows;
+            recordCount.textContent = `${data.length} records`;
+        }
+
+        function setupEventListeners() {
+            // Search
+            document.getElementById('searchInput').addEventListener('input', filterData);
+            document.getElementById('brandFilter').addEventListener('change', filterData);
+            document.getElementById('marketplaceFilter').addEventListener('change', filterData);
+            
+            // Reset
+            document.getElementById('resetBtn').addEventListener('click', () => {
+                document.getElementById('searchInput').value = '';
+                document.getElementById('brandFilter').value = '';
+                document.getElementById('marketplaceFilter').value = '';
+                renderTable(laptopData);
+            });
+
+            // Export filtered data
+            document.getElementById('exportFilteredBtn').addEventListener('click', () => {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const brandFilter = document.getElementById('brandFilter').value;
+                const marketplaceFilter = document.getElementById('marketplaceFilter').value;
+
+                let filtered = laptopData;
+
+                if (searchTerm) {
+                    filtered = filtered.filter(item => 
+                        item.name.toLowerCase().includes(searchTerm) ||
+                        item.processor.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                if (brandFilter) {
+                    filtered = filtered.filter(item => item.brand === brandFilter);
+                }
+
+                if (marketplaceFilter) {
+                    filtered = filtered.filter(item => item.marketplace === marketplaceFilter);
+                }
+
+                downloadCSV(filtered);
+            });
+
+            // Refresh
+            document.getElementById('refreshBtn').addEventListener('click', () => {
+                loadData();
+                showToast('Data berhasil di-refresh!');
+            });
+        }
+
+        function filterData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const brandFilter = document.getElementById('brandFilter').value;
+            const marketplaceFilter = document.getElementById('marketplaceFilter').value;
+
+            let filtered = laptopData;
+
+            if (searchTerm) {
+                filtered = filtered.filter(item => 
+                    item.name.toLowerCase().includes(searchTerm) ||
+                    item.processor.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            if (brandFilter) {
+                filtered = filtered.filter(item => item.brand === brandFilter);
+            }
+
+            if (marketplaceFilter) {
+                filtered = filtered.filter(item => item.marketplace === marketplaceFilter);
+            }
+
+            renderTable(filtered);
+        }
+
+        function downloadCSV(dataToExport = laptopData) {
+            // Create CSV content
+            const headers = ['ID', 'Nama', 'Brand', 'Processor', 'Processor Type', 'RAM (GB)', 'Storage (GB)', 'Storage Type', 'GPU', 'GPU Type', 'Screen Size', 'Weight (kg)', 'Marketplace', 'Seller', 'Price (IDR)', 'Original Price (IDR)', 'Discount (%)', 'Rating', 'Review Count', 'Sold Count', 'Condition', 'Date Scraped'];
+            
+            const rows = dataToExport.map(item => [
+                item.id,
+                `"${item.name}"`,
+                item.brand,
+                `"${item.processor}"`,
+                item.processor_type,
+                item.ram_gb,
+                item.storage_gb,
+                item.storage_type,
+                `"${item.gpu}"`,
+                item.gpu_type,
+                item.screen_size,
+                item.weight_kg,
+                item.marketplace,
+                `"${item.seller}"`,
+                item.price_idr,
+                item.original_price_idr,
+                item.discount_pct,
+                item.rating,
+                item.review_count,
+                item.sold_count,
+                item.condition,
+                item.date_scraped
+            ].join(','));
+
+            const csvContent = [headers.join(','), ...rows].join('\n');
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            const filterSuffix = dataToExport.length < laptopData.length ? '-filtered' : '';
+            link.setAttribute('href', url);
+            link.setAttribute('download', `analytix-laptop-data${filterSuffix}-${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.display = 'none';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast(`File CSV berhasil di-download! (${dataToExport.length} records)`);
+        }
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('id-ID').format(price);
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'k';
+            }
+            return num.toString();
+        }
+
+        function showToast(message) {
+            // Simple toast notification
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:var(--blue-600);color:white;padding:12px 20px;border-radius:8px;box-shadow:var(--shadow-lg);z-index:9999;animation:slideIn 0.3s ease;';
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+
+        // CSV Preview Functions
+        function setupCSVPreview() {
+            document.getElementById('previewCSVBtn').addEventListener('click', showCSVPreview);
+        }
+
+        async function showCSVPreview() {
+            const modal = document.getElementById('csvPreviewModal');
+            const content = document.getElementById('csvPreviewContent');
+            
+            modal.style.display = 'flex';
+            content.textContent = 'Loading CSV file...';
+            
+            try {
+                const response = await fetch('all-data-laptop.csv');
+                if (!response.ok) throw new Error('Failed to load CSV');
+                
+                const csvText = await response.text();
+                const lines = csvText.split('\n');
+                
+                // Show first 50 lines for preview
+                const previewLines = lines.slice(0, 50);
+                const remainingLines = lines.length - 50;
+                
+                let previewText = previewLines.join('\n');
+                if (remainingLines > 0) {
+                    previewText += `\n\n... and ${remainingLines} more lines\n(Download file to see complete data)`;
+                }
+                
+                content.textContent = previewText;
+            } catch (error) {
+                content.textContent = 'Error loading CSV file: ' + error.message;
+            }
+        }
+
+        function closePreviewModal() {
+            document.getElementById('csvPreviewModal').style.display = 'none';
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePreviewModal();
+            }
+        });
+    </script>
+
+    <style>
+        .filter-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            padding: 10px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--blue-600);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .data-table thead {
+            position: sticky;
+            top: 0;
+            background: var(--gray-50);
+            z-index: 10;
+        }
+
+        .data-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+            border-bottom: 2px solid var(--gray-200);
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--gray-50);
+        }
+
+        .badge-brand {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--blue-600);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-marketplace {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .header-actions button {
+                width: 100%;
+            }
+        }
+
+        /* Dataset Info Card */
+        .dataset-info-card {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(37, 99, 235, 0.02) 100%);
+            border: 2px solid var(--blue-600);
+        }
+
+        .dataset-info-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .dataset-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .dataset-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-item code {
+            background: var(--gray-100);
+            color: var(--gray-900);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-family: 'Courier New', monospace;
+            border: 1px solid var(--gray-200);
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            position: relative;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 10001;
+        }
+
+        .modal-large {
+            max-width: 1200px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .modal-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: var(--gray-500);
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .csv-preview-container {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .csv-preview {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            line-height: 1.6;
+            color: var(--gray-900);
+            white-space: pre;
+            overflow-x: auto;
+            max-height: 60vh;
+            background: var(--white);
+        }
+
+        .csv-preview::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .csv-preview::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 4px;
+        }
+
+        .csv-preview::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
+        }
+    </style>
+</body>
+</html>

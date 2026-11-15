@@ -1,0 +1,33 @@
+{
+  "project_type": "Flask backend + vanilla JavaScript frontend with MySQL database",
+  "language": "Python (backend), JavaScript (frontend), SQL (database)",
+  "build_system": "Flask development server, no build step for frontend (vanilla JS/HTML/CSS)",
+  "test_framework": "None currently configured - will use offline syntax validation",
+  "build_command": "python backend/app.py",
+  "test_command": "python -m py_compile <file> for syntax validation",
+  "verification_instructions": "1. Run py_compile on all Python files to check syntax. 2. Verify SQL schema can be parsed. 3. Test scraper with HTML fixture offline (no live marketplace access). 4. Start Flask server and verify endpoints respond.",
+  "snapshot_or_generated_files": null,
+  "environment_constraints": "Local worktree development. MySQL must be running separately. No live marketplace scraping during verification (use offline HTML fixtures). Backend currently uses demo CSV data in data.js loaded via get_products() fallback.",
+  "contribution_requirements": "Preserve existing HTML/CSS design. Maintain backward compatibility for frontend. Add proper error handling and logging for scrapers. Include rate limiting to respect marketplace ToS.",
+  "key_patterns": "Backend: Flask blueprints in routes/, models in models/database.py using pandas for CSV fallback or mysql.connector for DB. Frontend: All 8 HTML pages load assets/js/data.js (window.LAPTOP_DATA array). Each page has inline <script> in HTML that references window.LAPTOP_DATA directly. No separate .js files for dashboard.js, products.js etc - all logic is inline in HTML.",
+  "relevant_files": [
+    "d:\\WEBSITE\\Analytix\\backend\\config.py",
+    "d:\\WEBSITE\\Analytix\\backend\\app.py",
+    "d:\\WEBSITE\\Analytix\\backend\\models\\database.py",
+    "d:\\WEBSITE\\Analytix\\backend\\routes\\products.py",
+    "d:\\WEBSITE\\Analytix\\backend\\routes\\analysis.py",
+    "d:\\WEBSITE\\Analytix\\backend\\routes\\prediction.py",
+    "d:\\WEBSITE\\Analytix\\database\\schema.sql",
+    "d:\\WEBSITE\\Analytix\\frontend\\assets\\js\\data.js",
+    "d:\\WEBSITE\\Analytix\\frontend\\index.html",
+    "d:\\WEBSITE\\Analytix\\frontend\\products.html",
+    "d:\\WEBSITE\\Analytix\\frontend\\comparison.html",
+    "d:\\WEBSITE\\Analytix\\frontend\\analysis.html",
+    "d:\\WEBSITE\\Analytix\\frontend\\trends.html",
+    "d:\\WEBSITE\\Analytix\\frontend\\prediction.html",
+    "d:\\WEBSITE\\Analytix\\frontend\\recommendation.html",
+    "d:\\WEBSITE\\Analytix\\frontend\\about.html",
+    "d:\\WEBSITE\\Analytix\\backend\\requirements.txt"
+  ],
+  "directory_structure": "backend/ (app.py, config.py, models/, routes/), database/ (schema.sql), frontend/ (8 HTML files, assets/css/main.css, assets/js/data.js). Backend routes registered as blueprints. Models use get_products() which falls back to CSV if MySQL unavailable. Schema.sql already has tables: marketplaces, brands, sellers, products, prices, reviews, price_history with sample data."
+}
