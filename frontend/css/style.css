@@ -5,6 +5,11 @@
     box-sizing: border-box;
 }
 
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
+
 /* CSS Custom Properties */
 :root {
     --bg-primary: #0a0a0a;
