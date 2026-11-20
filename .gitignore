@@ -27,12 +27,13 @@ Thumbs.db
 desktop.ini
 
 # Orange Data Mining Files
-ORANGE_DATA_MINING_GUIDE.md
-CARA_PAKAI_ORANGE.txt
-ORANGE_QUICK_START.txt
+PANDUAN_PROYEK_BIG_DATA_ORANGE.txt
 prepare_for_orange.py
 laptop_dataset_for_orange.csv
 *.ows
+
+# Video Dubbing Materials
+MATERI_DUBBING_VIDEO.txt
 
 # Data Generation Scripts
 generate_laptop_data.py
@@ -41,3 +42,4 @@ generate_laptop_data.py
 *.tmp
 *.temp
 *.log
+expand_to_5000.py
