@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Orange Data Mining Files
+ORANGE_DATA_MINING_GUIDE.md
+CARA_PAKAI_ORANGE.txt
+ORANGE_QUICK_START.txt
+prepare_for_orange.py
+laptop_dataset_for_orange.csv
+*.ows
+
+# Data Generation Scripts
+generate_laptop_data.py
+
+# Temporary files
+*.tmp
+*.temp
+*.log
