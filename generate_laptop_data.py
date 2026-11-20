@@ -43,7 +43,7 @@ print(f"Data asli: {len(original_data)} rows")
 
 # Generate data baru
 new_data = []
-target_count = 2000
+target_count = 4000
 iterations_needed = target_count - len(original_data)
 
 print(f"Generating {iterations_needed} data tambahan...")
